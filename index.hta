@@ -9,10 +9,30 @@
   <script src="app/tpl/models/UserModel.js"></script>
   <pre id="output">Loading...</pre>
   <script type="text/javascript">
+  function ObjectToString(obj) {
+  var str = "";
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      str += key + ": " + obj[key] + "\n";
+    }
+  }
+  return str;
+}
 
   var db = new Database("database");
 
-  document.getElementById("output").innerHTML = db.testConnection();
+  // Get all users with rank_id 4
+  var users = db.select("rank_id", 4, "users");
+
+  // Get all users with username 'claydk'
+  var users = db.select("username", "claydk", "users");
+
+  // Get the user with id 1 (assumes id is unique, so you may want the first result)
+  var user = db.select("id", 1, "__details")[0] || null;
+
+  var users = db.selectMulti("__details");
+
+  document.getElementById("output").innerHTML = users[0].name;
   </script>
 
 </body>
