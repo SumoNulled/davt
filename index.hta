@@ -30,9 +30,9 @@
   // Get the user with id 1 (assumes id is unique, so you may want the first result)
   var user = db.select("id", 1, "__details")[0] || null;
 
-  var users = db.selectMulti("__details");
+  var users = db.selectAll("__details")[0];
 
-  document.getElementById("output").innerHTML = users[0].name;
+  document.getElementById("output").innerHTML = users.name;
   </script>
 
 </body>

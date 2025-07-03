@@ -56,7 +56,7 @@ Database.prototype.select = function(parameter, value, table) {
  * @param {string} table Name of the table (e.g., "users")
  * @return {Array<Object>} Array of all records in the table, or empty array
  */
-Database.prototype.selectMulti = function(table) {
+Database.prototype.selectAll = function(table) {
     var t = this.conn[table];
 
     if (!t) return [];
