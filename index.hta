@@ -4,5 +4,15 @@
 
 </head>
 <body>
-Hello World!
+  <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
+  <script type="text/javascript" src="app/tpl/services/Database.js"></script>
+  <script src="app/tpl/models/UserModel.js"></script>
+  <pre id="output">Loading...</pre>
+  <script type="text/javascript">
+
+  var db = new Database("database");
+
+  document.getElementById("output").innerHTML = db.testConnection();
+  </script>
+
 </body>
