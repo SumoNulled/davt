@@ -1,18 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+  <title>Add New User</title>
 </head>
 <body>
+
+  <h2>DAVT - Add New User</h2>
+
+  <form id="userForm" onsubmit="return false">
+    <label>Username: <input type="text" name="username" required></label><br>
+    <label>First Name: <input type="text" name="first_name" required></label><br>
+    <label>Last Name: <input type="text" name="last_name" required></label><br>
+    <label>Rate: <input type="text" name="rate" required></label><br>
+    <label>Password: <input type="password" name="password" required></label><br>
+    <label>Rank ID: <input type="number" name="rank_id" value="4"></label><br>
+    <label>Permission IDs (comma-separated): <input type="text" name="permission_ids" value="1,2"></label><br><br>
+    <input type="submit" value="Add User">
+  </form>
+
+  <pre id="output">Loading...</pre>
+
   <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
   <script type="text/javascript" src="app/tpl/services/Database.js"></script>
-  <script src="app/tpl/models/UserModel.js"></script>
-  <pre id="output">Loading...</pre>
+  <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
+
   <script type="text/javascript">
+    var db = new Database("database");
+    var details = db.selectAll("__details")[0];
+    document.getElementById("output").innerHTML = "Database: " + details.name;
 
-  var db = new Database("database");
+    var form = document.getElementById("userForm");
 
-  document.getElementById("output").innerHTML = db.testConnection();
+    form.onsubmit = function(e) {
+
+      var f = form.elements;
+
+      var columns = [
+        "username", "first_name", "last_name", "rate", "password", "rank_id", "permission_ids"
+      ];
+
+      var rawIds = f.permission_ids.value.split(",");
+      var permissionIds = [];
+      for (var i = 0; i < rawIds.length; i++) {
+        permissionIds.push(parseInt(rawIds[i].replace(/\s/g, ""), 10));
+      }
+
+
+      var values = [
+        f.username.value,
+        f.first_name.value,
+        f.last_name.value,
+        f.rate.value,
+        f.password.value,
+        parseInt(f.rank_id.value, 10),
+        permissionIds
+      ];
+
+      var user = db.insert("users", columns, values);
+
+      if (user) {
+        document.getElementById("output").innerText = "User added: ID " + user.id;
+      } else {
+        document.getElementById("output").innerText = "Failed to add user.";
+      }
+
+      return false;
+      // Optional: save to disk here
+    };
   </script>
 
 </body>
+</html>
