@@ -1,73 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Add New User</title>
+  <title>Update All Records</title>
 </head>
 <body>
 
-  <h2>DAVT - Add New User</h2>
+  <h2>DAVT - Update All Records</h2>
 
-  <form id="userForm" onsubmit="return false">
-    <label>Username: <input type="text" name="username" required></label><br>
-    <label>First Name: <input type="text" name="first_name" required></label><br>
-    <label>Last Name: <input type="text" name="last_name" required></label><br>
-    <label>Rate: <input type="text" name="rate" required></label><br>
-    <label>Password: <input type="password" name="password" required></label><br>
-    <label>Rank ID: <input type="number" name="rank_id" value="4"></label><br>
-    <label>Permission IDs (comma-separated): <input type="text" name="permission_ids" value="1,2"></label><br><br>
-    <input type="submit" value="Add User">
-  </form>
+  <label for="tableSelect">Select Table:</label>
+  <select id="tableSelect">
+    <option value="users">users</option>
+    <option value="permissions">permissions</option>
+    <option value="ranks">ranks</option>
+  </select><br><br>
 
-  <pre id="output">Loading...</pre>
+  <label for="columnName">Column to update:</label>
+  <input type="text" id="columnName" placeholder="e.g. rank_id"><br><br>
+
+  <label for="newValue">New Value:</label>
+  <input type="text" id="newValue" placeholder="e.g. 1"><br><br>
+
+  <button id="updateAllBtn">Update All</button>
+
+  <pre id="output">Waiting for input...</pre>
 
   <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
   <script type="text/javascript" src="app/tpl/services/Database.js"></script>
   <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
 
   <script type="text/javascript">
-    var db = new Database("database");
-    var details = db.selectAll("__details")[0];
-    document.getElementById("output").innerHTML = "Database: " + details.name;
+  var db = new Database("database");
+  var output = document.getElementById("output");
 
-    var form = document.getElementById("userForm");
+  document.getElementById("updateAllBtn").onclick = function() {
+    var table = trim(document.getElementById("tableSelect").value);
+    var column = trim(document.getElementById("columnName").value);
+    var newValueRaw = trim(document.getElementById("newValue").value);
 
-    form.onsubmit = function(e) {
+    if (!table || !column) {
+      output.innerText = "Please select a table and enter a column name.";
+      return;
+    }
 
-      var f = form.elements;
+    // Try to parse newValue as number if possible
+    var newValue = isNaN(newValueRaw) ? newValueRaw : Number(newValueRaw);
+    var data = {};
+    data[column] = newValue;
+    // Correct usage: pass an object with key-value pairs
+    var updatedCount = db.updateAll(table, data);
 
-      var columns = [
-        "username", "first_name", "last_name", "rate", "password", "rank_id", "permission_ids"
-      ];
+    output.innerText = updatedCount > 0
+      ? "Updated " + updatedCount + " record(s) in table '" + table + "'."
+      : "No records updated in table '" + table + "'.";
+  };
 
-      var rawIds = f.permission_ids.value.split(",");
-      var permissionIds = [];
-      for (var i = 0; i < rawIds.length; i++) {
-        permissionIds.push(parseInt(rawIds[i].replace(/\s/g, ""), 10));
-      }
+  function trim(str) {
+    return str.replace(/^\s+|\s+$/g, '');
+  }
+</script>
 
-
-      var values = [
-        f.username.value,
-        f.first_name.value,
-        f.last_name.value,
-        f.rate.value,
-        f.password.value,
-        parseInt(f.rank_id.value, 10),
-        permissionIds
-      ];
-
-      var user = db.insert("users", columns, values);
-
-      if (user) {
-        document.getElementById("output").innerText = "User added: ID " + user.id;
-      } else {
-        document.getElementById("output").innerText = "Failed to add user.";
-      }
-
-      return false;
-      // Optional: save to disk here
-    };
-  </script>
 
 </body>
 </html>

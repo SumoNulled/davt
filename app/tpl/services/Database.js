@@ -123,6 +123,62 @@ record.created_at =
 };
 
 /**
+ * Update records in a table matching a filter condition with given updates.
+ *
+ * @param {string} table Name of the table (e.g., "users")
+ * @param {Object} updates Key-value pairs of columns to update (e.g., {rank_id: 1})
+ * @param {string} whereField Field name to filter by (e.g., "username")
+ * @param {string|number} whereValue Value to match (e.g., "claydk")
+ * @return {number} Number of records updated
+ */
+Database.prototype.update = function(table, updates, whereField, whereValue) {
+  var t = this.conn[table];
+  if (!t || typeof t.length !== "number") return 0;
+
+  var updatedCount = 0;
+  for (var i = 0; i < t.length; i++) {
+    if (t[i][whereField] === whereValue) {
+      for (var key in updates) {
+        if (updates.hasOwnProperty(key)) {
+          t[i][key] = updates[key];
+        }
+      }
+      updatedCount++;
+    }
+  }
+
+  if (updatedCount > 0) this.save();
+
+  return updatedCount;
+};
+
+/**
+ * Update all records in a table with given column-value pairs.
+ *
+ * @param {string} table Name of the table (e.g., "users")
+ * @param {Object} updates Key-value pairs of columns to update (e.g., {rank_id: 1})
+ * @return {number} Number of records updated
+ */
+Database.prototype.updateAll = function(table, updates) {
+  var t = this.conn[table];
+  if (!t || typeof t.length !== "number") return 0;
+
+  var updatedCount = 0;
+  for (var i = 0; i < t.length; i++) {
+    for (var key in updates) {
+      if (updates.hasOwnProperty(key)) {
+        t[i][key] = updates[key];
+      }
+    }
+    updatedCount++;
+  }
+
+  if (updatedCount > 0) this.save();
+
+  return updatedCount;
+};
+
+/**
  * Saves the current state of the database to disk.
  *
  * Attempts to stringify the in-memory database connection object (`this.conn`)
@@ -134,7 +190,7 @@ Database.prototype.save = function() {
   try {
     var fso = new ActiveXObject("Scripting.FileSystemObject");
     var file = fso.OpenTextFile(this.config.dbFilePath, 2 /* ForWriting */, true);
-    var jsonString = jsonStringify(this.conn, null, 2); // Pretty print
+    var jsonString = jsonStringify(this.conn); // Pretty print
 
     file.Write(jsonString);
     file.Close();
