@@ -15,7 +15,7 @@
    singleinstance="yes"
    windowstate="normal" />
 
-  <title>DAVT</title>
+  <title>Drafting and Validation Tool (DAVT)</title>
   <link rel="stylesheet" href="styles/style.css" type="text/css">
 </head>
 <body>
@@ -30,11 +30,15 @@
 
 <script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
 <script>
-  var session = false;
   var views = new PageLoader("content");
 
-  // Load default page
-  views.load('login');
+  /**
+   * Load the default page on startup.
+   *
+   * @param login This ensures the user sees the login screen first.
+   */
+ views.load('login');
+
 </script>
 
 </body>
