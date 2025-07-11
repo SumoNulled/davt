@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Update All Records</title>
+  <title>Update or Delete Records</title>
 </head>
 <body>
 
@@ -22,6 +22,22 @@
 
   <button id="updateAllBtn">Update All</button>
 
+  <hr>
+
+  <h2>DAVT - Delete Record by ID</h2>
+
+  <label for="deleteTable">Select Table:</label>
+  <select id="deleteTable">
+    <option value="users">users</option>
+    <option value="permissions">permissions</option>
+    <option value="ranks">ranks</option>
+  </select><br><br>
+
+  <label for="deleteId">Enter ID to delete:</label>
+  <input type="number" id="deleteId" min="1"><br><br>
+
+  <button id="deleteBtn">Delete</button>
+
   <pre id="output">Waiting for input...</pre>
 
   <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
@@ -29,36 +45,48 @@
   <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
 
   <script type="text/javascript">
-  var db = new Database("database");
-  var output = document.getElementById("output");
+    var db = new Database("database");
+    var output = document.getElementById("output");
 
-  document.getElementById("updateAllBtn").onclick = function() {
-    var table = trim(document.getElementById("tableSelect").value);
-    var column = trim(document.getElementById("columnName").value);
-    var newValueRaw = trim(document.getElementById("newValue").value);
+    document.getElementById("updateAllBtn").onclick = function() {
+      var table = trim(document.getElementById("tableSelect").value);
+      var column = trim(document.getElementById("columnName").value);
+      var newValueRaw = trim(document.getElementById("newValue").value);
 
-    if (!table || !column) {
-      output.innerText = "Please select a table and enter a column name.";
-      return;
+      if (!table || !column) {
+        output.innerText = "Please select a table and enter a column name.";
+        return;
+      }
+
+      var newValue = isNaN(newValueRaw) ? newValueRaw : Number(newValueRaw);
+      var data = {};
+      data[column] = newValue;
+
+      var updatedCount = db.updateAll(table, data);
+      output.innerText = updatedCount > 0
+        ? "Updated " + updatedCount + " record(s) in table '" + table + "'."
+        : "No records updated in table '" + table + "'.";
+    };
+
+    document.getElementById("deleteBtn").onclick = function() {
+      var table = trim(document.getElementById("deleteTable").value);
+      var id = parseInt(document.getElementById("deleteId").value, 10);
+
+      if (!table || isNaN(id)) {
+        output.innerText = "Please select a table and enter a valid numeric ID.";
+        return;
+      }
+
+      var deleted = db.deleteRow(table, "id", id);
+      output.innerText = deleted > 0
+        ? "Deleted record with ID " + id + " from '" + table + "'."
+        : "No record found with ID " + id + " in table '" + table + "'.";
+    };
+
+    function trim(str) {
+      return str.replace(/^\s+|\s+$/g, '');
     }
-
-    // Try to parse newValue as number if possible
-    var newValue = isNaN(newValueRaw) ? newValueRaw : Number(newValueRaw);
-    var data = {};
-    data[column] = newValue;
-    // Correct usage: pass an object with key-value pairs
-    var updatedCount = db.updateAll(table, data);
-
-    output.innerText = updatedCount > 0
-      ? "Updated " + updatedCount + " record(s) in table '" + table + "'."
-      : "No records updated in table '" + table + "'.";
-  };
-
-  function trim(str) {
-    return str.replace(/^\s+|\s+$/g, '');
-  }
-</script>
-
+  </script>
 
 </body>
 </html>
