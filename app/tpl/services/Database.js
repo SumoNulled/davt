@@ -233,6 +233,10 @@ Database.prototype.save = function() {
   }
 };
 
+/**
+*
+*
+*/
 function jsonStringify(value, indentLevel) {
   var type = typeof value;
   var indent = indentLevel || 0;

@@ -1,92 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Update or Delete Records</title>
+  <title>DAVT - Main</title>
+  <style>
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+  }
+  iframe {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  #navbar {       /* fixed height */
+    background: #333;
+    color: white;
+    line-height: 50px;
+    padding-left: 10px;
+  }
+
+  #contentContainer {
+    height: calc(100vh - 50px);  /* full viewport height minus navbar */
+    width: 100%;
+  }
+
+  #contentFrame {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
 </head>
 <body>
 
-  <h2>DAVT - Update All Records</h2>
+  <div id="navbar">
+  <button onclick="loadPage('login')">Home</button>
+  <button onclick="loadPage('users')">Users</button>
+  <!-- more buttons -->
+</div>
 
-  <label for="tableSelect">Select Table:</label>
-  <select id="tableSelect">
-    <option value="users">users</option>
-    <option value="permissions">permissions</option>
-    <option value="ranks">ranks</option>
-  </select><br><br>
+<div id="content" style="padding:10px;"></div>
 
-  <label for="columnName">Column to update:</label>
-  <input type="text" id="columnName" placeholder="e.g. rank_id"><br><br>
+<script>
+function loadPage(pageName) {
+  var xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  try {
+    xhr.open("GET", "app/tpl/views/" + pageName + ".html", false); // synchronous
+    xhr.send();
 
-  <label for="newValue">New Value:</label>
-  <input type="text" id="newValue" placeholder="e.g. 1"><br><br>
-
-  <button id="updateAllBtn">Update All</button>
-
-  <hr>
-
-  <h2>DAVT - Delete Record by ID</h2>
-
-  <label for="deleteTable">Select Table:</label>
-  <select id="deleteTable">
-    <option value="users">users</option>
-    <option value="permissions">permissions</option>
-    <option value="ranks">ranks</option>
-  </select><br><br>
-
-  <label for="deleteId">Enter ID to delete:</label>
-  <input type="number" id="deleteId" min="1"><br><br>
-
-  <button id="deleteBtn">Delete</button>
-
-  <pre id="output">Waiting for input...</pre>
-
-  <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
-  <script type="text/javascript" src="app/tpl/services/Database.js"></script>
-  <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
-
-  <script type="text/javascript">
-    var db = new Database("database");
-    var output = document.getElementById("output");
-
-    document.getElementById("updateAllBtn").onclick = function() {
-      var table = trim(document.getElementById("tableSelect").value);
-      var column = trim(document.getElementById("columnName").value);
-      var newValueRaw = trim(document.getElementById("newValue").value);
-
-      if (!table || !column) {
-        output.innerText = "Please select a table and enter a column name.";
-        return;
-      }
-
-      var newValue = isNaN(newValueRaw) ? newValueRaw : Number(newValueRaw);
-      var data = {};
-      data[column] = newValue;
-
-      var updatedCount = db.updateAll(table, data);
-      output.innerText = updatedCount > 0
-        ? "Updated " + updatedCount + " record(s) in table '" + table + "'."
-        : "No records updated in table '" + table + "'.";
-    };
-
-    document.getElementById("deleteBtn").onclick = function() {
-      var table = trim(document.getElementById("deleteTable").value);
-      var id = parseInt(document.getElementById("deleteId").value, 10);
-
-      if (!table || isNaN(id)) {
-        output.innerText = "Please select a table and enter a valid numeric ID.";
-        return;
-      }
-
-      var deleted = db.deleteRow(table, "id", id);
-      output.innerText = deleted > 0
-        ? "Deleted record with ID " + id + " from '" + table + "'."
-        : "No record found with ID " + id + " in table '" + table + "'.";
-    };
-
-    function trim(str) {
-      return str.replace(/^\s+|\s+$/g, '');
+    if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText.length > 0)) {
+      document.getElementById("content").innerHTML = xhr.responseText;
+    } else {
+      document.getElementById("content").innerHTML = "<h3>Page not found</h3>";
     }
-  </script>
+  } catch (e) {
+    // Handle file not found or other errors here
+    document.getElementById("content").innerHTML = "<h3>Page not found</h3>";
+  }
+}
+
+
+  // Load default page
+  loadPage('login');
+</script>
+
 
 </body>
 </html>
