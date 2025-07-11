@@ -2,44 +2,35 @@
 <html>
 <head>
   <hta:application
-   id="app"
-   applicationname="DAVTApp"
-   border="dialog"
-   borderstyle="normal"
-   caption="yes"
-   contextmenu="no"
-   icon="styles/favicon.ico"
-   maximizebutton="no"
-   scroll="no"
-   navigable="no"
-   singleinstance="yes"
-   windowstate="normal" />
+    id="app"
+    applicationname="DAVTApp"
+    border="dialog"
+    borderstyle="normal"
+    caption="yes"
+    contextmenu="yes"
+    icon="styles/favicon.ico"
+    maximizebutton="no"
+    scroll="no"
+    navigable="no"
+    singleinstance="yes"
+    windowstate="normal" />
 
   <title>Drafting and Validation Tool (DAVT)</title>
   <link rel="stylesheet" href="styles/style.css" type="text/css">
 </head>
 <body>
 
-<div id="navbar">
-  <button onclick="views.load('login')">Home</button>
-  <button onclick="views.load('dashboard')">Dashboard</button>
-  <!-- more buttons -->
-</div>
+  <div id="navbar">
+    <button data-page="login">Home</button>
+    <button data-page="dashboard">Dashboard</button>
+  </div>
 
-<div id="content" style="padding:10px;"></div>
+  <div id="viewContainer" style="padding:10px;"></div>
 
-<script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
-<script>
-  var views = new PageLoader("content");
-
-  /**
-   * Load the default page on startup.
-   *
-   * @param login This ensures the user sees the login screen first.
-   */
- views.load('login');
-
-</script>
+  <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
+  <script type="text/javascript" src="app/tpl/services/Database.js"></script>
+  <script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
 
 </body>
 </html>
