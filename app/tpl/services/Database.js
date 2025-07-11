@@ -179,6 +179,36 @@ Database.prototype.updateAll = function(table, updates) {
 };
 
 /**
+ * Deletes records from a table where a column matches a value.
+ *
+ * @param {string} table Name of the table (e.g., "users")
+ * @param {string} column Column name to match (e.g., "id")
+ * @param {string|number} value Value to match
+ * @return {number} Number of records deleted
+ */
+Database.prototype.deleteRow = function(table, column, value) {
+  var t = this.conn[table];
+  if (!t || typeof t.length !== "number") return 0;
+
+  var originalLength = t.length;
+  var remaining = [];
+
+  for (var i = 0; i < t.length; i++) {
+    if (t[i][column] !== value) {
+      remaining.push(t[i]);
+    }
+  }
+
+  this.conn[table] = remaining;
+  var deletedCount = originalLength - remaining.length;
+
+  if (deletedCount > 0) this.save();
+
+  return deletedCount;
+};
+
+
+/**
  * Saves the current state of the database to disk.
  *
  * Attempts to stringify the in-memory database connection object (`this.conn`)
