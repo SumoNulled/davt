@@ -1,73 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>DAVT - Main</title>
-  <style>
-  html, body {
-    margin: 0; padding: 0; height: 100%;
-  }
-  iframe {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  #navbar {       /* fixed height */
-    background: #333;
-    color: white;
-    line-height: 50px;
-    padding-left: 10px;
-  }
+  <hta:application
+   id="app"
+   applicationname="DAVTApp"
+   border="dialog"
+   borderstyle="normal"
+   caption="yes"
+   contextmenu="no"
+   icon="styles/favicon.ico"
+   maximizebutton="no"
+   scroll="no"
+   navigable="no"
+   singleinstance="yes"
+   windowstate="normal" />
 
-  #contentContainer {
-    height: calc(100vh - 50px);  /* full viewport height minus navbar */
-    width: 100%;
-  }
-
-  #contentFrame {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-</style>
+  <title>DAVT</title>
+  <link rel="stylesheet" href="styles/style.css" type="text/css">
 </head>
 <body>
 
-  <div id="navbar">
-  <button onclick="loadPage('login')">Home</button>
-  <button onclick="loadPage('users')">Users</button>
+<div id="navbar">
+  <button onclick="views.load('login')">Home</button>
+  <button onclick="views.load('dashboard')">Dashboard</button>
   <!-- more buttons -->
 </div>
 
 <div id="content" style="padding:10px;"></div>
 
+<script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
 <script>
-function loadPage(pageName) {
-  var xhr = new ActiveXObject("Microsoft.XMLHTTP");
-  try {
-    xhr.open("GET", "app/tpl/views/" + pageName + ".html", false); // synchronous
-    xhr.send();
-
-    if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText.length > 0)) {
-      document.getElementById("content").innerHTML = xhr.responseText;
-    } else {
-      document.getElementById("content").innerHTML = "<h3>Page not found</h3>";
-    }
-  } catch (e) {
-    // Handle file not found or other errors here
-    document.getElementById("content").innerHTML = "<h3>Page not found</h3>";
-  }
-}
-
+  var session = false;
+  var views = new PageLoader("content");
 
   // Load default page
-  loadPage('login');
+  views.load('login');
 </script>
-
 
 </body>
 </html>
