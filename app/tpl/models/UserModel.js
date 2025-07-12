@@ -5,9 +5,9 @@
  */
 function UserModel(database) {
   this.db = database;
-  this.users = database.users || [];
-  this.permissions = database.permissions || [];
-  this.ranks = database.ranks || [];
+  this.users = this.db.selectAll("users") || [];
+  this.permissions = this.db.selectAll("permissions") || [];
+  this.ranks = this.db.selectAll("ranks") || [];
 }
 
 /**
@@ -97,4 +97,18 @@ UserModel.prototype.hasPermission = function(userId, permissionName) {
     if (perms[i] === permissionName) return true;
   }
   return false;
+};
+
+/**
+ * Validates a username and password against the user database.
+ *
+ * @param {string} username The username to look up.
+ * @param {string} password The plain text password to verify.
+ * @return {Object|null} Returns the matching user object if valid, or null if invalid.
+ */
+UserModel.prototype.validateCredentials = function(username, password) {
+  var user = this.findByUsername(username);
+  if (!user) return null;
+  if (user.password === password) return user;
+  return null;
 };

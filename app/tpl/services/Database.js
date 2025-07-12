@@ -15,7 +15,7 @@ function Database(dbName) {
  * @return {string} Expected validation string.
  */
 Database.prototype.testConnection = function() {
-    return this.conn.__details[0].validation;
+    return this.conn.__details.validation;
 }
 
 /**

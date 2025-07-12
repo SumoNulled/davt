@@ -4,14 +4,18 @@
   <title>Dashboard</title>
 </head>
 <body>
-  <div id="content"></div>
-
   <script type="text/javascript">
-    if (typeof session !== "undefined" && session === true) {
-      document.getElementById("content").innerText = "Welcome to the dashboard!";
-    } else {
-      document.getElementById("content").innerText = "Insufficient privileges.";
-    }
+    (function () {
+      if (typeof session === "undefined" || !session.isLoggedIn) {
+        document.getElementById("viewContainer").innerHTML = "Access denied.";
+        return;
+      }
+
+      // Continue initializing dashboard
+      //document.getElementById("viewContainer").innerText = "Welcome to the dashboard!";
+    })();
   </script>
+
+  Hello World!
 </body>
 </html>

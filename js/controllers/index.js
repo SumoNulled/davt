@@ -3,8 +3,8 @@
  *
  * @param {string} containerId ID of the container element for loading pages.
  */
-function Index(containerId) {
-  this.views = new PageLoader(containerId);
+function Index() {
+  this.views = Loaders.Page;
 }
 
 /**

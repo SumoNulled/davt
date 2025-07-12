@@ -12,6 +12,7 @@ PageLoader.prototype.load = function(pageName, is404Attempt) {
 
   try {
     if (!fso.FileExists(path)) {
+      alert("NO perms");
       if (!is404Attempt) {
         // If the requested page doesn't exist, try loading the custom 404 page
         // You can define this dynamically or keep as a variable somewhere
@@ -59,7 +60,7 @@ PageLoader.prototype.load = function(pageName, is404Attempt) {
       this.container.innerHTML = "<h3>Page not found</h3>";
     }
   } catch (e) {
-    this.container.innerHTML = "<h3>Error loading page.</h3>";
+    this.container.innerHTML = "<h3>Error loading page: " + e.message + "</h3>";
   }
 };
 
