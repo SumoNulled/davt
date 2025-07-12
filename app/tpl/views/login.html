@@ -23,11 +23,9 @@
            var user = Models.User.validateCredentials(username, password);
 
          if (user) {
-           window.session = {
-           isLoggedIn: true,
-           user: user
-           };
-
+           window.session.isLoggedIn = true,
+           window.session.user = user,
+           window.session.startTime = Math.floor(Date.now() / 1000);
            //window.execScript('MsgBox "Login successful!", 64, "Success"', 'VBScript');
            Loaders.Page.load("dashboard");
          } else {

@@ -10,5 +10,7 @@ window.Loaders = {
 
 window.session = {
   isLoggedIn: false,
-  userId: null
+  userId: null,
+  startTime: null,      // timestamp when session started
+  timeoutSeconds: 10    // debug session length
 }

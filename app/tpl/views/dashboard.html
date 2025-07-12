@@ -5,15 +5,37 @@
 </head>
 <body>
   <script type="text/javascript">
-    (function () {
-      if (typeof session === "undefined" || !session.isLoggedIn) {
-        document.getElementById("viewContainer").innerHTML = "Access denied.";
-        return;
-      }
+  (function () {
+if (!validateSession()) return;  // Call it and stop if invalid
 
-      // Continue initializing dashboard
-      //document.getElementById("viewContainer").innerText = "Welcome to the dashboard!";
-    })();
+if (typeof session === "undefined" || !session.isLoggedIn) {
+  document.getElementById("viewContainer").innerHTML = "Access denied.";
+  return;
+}
+
+// Continue initializing dashboard
+// document.getElementById("viewContainer").innerText = "Welcome to the dashboard!";
+
+// Your validateSession function can be outside or inside this closure
+function validateSession() {
+  if (!window.session.isLoggedIn || !window.session.startTime) {
+    Loaders.Page.load("login");
+    return false;
+  }
+
+  var now = Math.floor(Date.now() / 1000);
+  if ((now - window.session.startTime) > window.session.timeoutSeconds) {
+    alert("Session expired. Redirecting to login.");
+    window.session.isLoggedIn = false;
+    window.session.userId = null;
+    window.session.startTime = null;
+    Loaders.Page.load("login");
+    return false;
+  }
+
+  return true;
+}
+})();
   </script>
 
   Hello World!
