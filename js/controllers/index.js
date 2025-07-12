@@ -21,4 +21,7 @@ Index.prototype.loadDefault = function(defaultPage) {
 window.onload = function() {
   var index = new Index("viewContainer");
   index.loadDefault();
+  var classificationBar = document.getElementById("classification");
+  classificationBar.className = "classification secret"; // replace secret with any level
+  //classificationBar.innerHTML = "SECRET";
 };

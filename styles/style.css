@@ -1,6 +1,45 @@
 html, body {
   margin: 0; padding: 0; height: 100%;
+  font-family: Calibri;
 }
+
+.classification {
+  background-color: #000000;
+  color: white;
+  padding: 0px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.classification.unclassified {
+  background-color: #4CAF50; /* Green */
+}
+
+.classification.cui {
+  background-color: #007A33; /* CUI Green */
+  color: white;
+}
+
+.classification.confidential {
+  background-color: #000080; /* Navy Blue */
+  color: white;
+}
+
+.classification.secret {
+  background-color: #FF0000; /* Red */
+  color: white;
+}
+
+.classification.topsecret {
+  background-color: #FF6600; /* DoD Orange */
+  color: black;
+}
+
+.classification.topsecret_sensitive {
+  background-color: #800080; /* Purple */
+  color: white;
+}
+
 iframe {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
