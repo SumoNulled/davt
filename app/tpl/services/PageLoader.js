@@ -4,7 +4,7 @@
  * @param {string} containerId - The ID of the container element where pages are loaded.
  */
 function PageLoader(containerId) {
-  this.container = document.getElementById(containerId);
+    this.container = document.getElementById(containerId);
 }
 
 /**
@@ -15,92 +15,82 @@ function PageLoader(containerId) {
  * @param {boolean} is404Attempt - Internal flag to prevent infinite 404 recursion.
  */
 PageLoader.prototype.load = function(pageName, is404Attempt) {
-  var fso = new ActiveXObject("Scripting.FileSystemObject");
-  var folder = "app\\tpl\\views\\";
-  var path = folder + pageName + ".html";
+    var fso = new ActiveXObject("Scripting.FileSystemObject");
+    var folder = "app\\tpl\\views\\";
+    var path = folder + pageName + ".html";
+    var c = this.container;
 
-  try {
-    // Check if requested file exists
-    if (!fso.FileExists(path)) {
-      alert("NO perms");
-      if (!is404Attempt) {
-        var custom404Page = "404";
+    var currentPage = c.getAttribute("data-current-page"); // Save current page
 
-        // Load custom 404 page if it exists
-        if (fso.FileExists(folder + custom404Page + ".html")) {
-          this.load(custom404Page, true);
-          this.attachNavigation();
+    var performLoad = function() {
+        // Actual page loading logic
+        var xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        xhr.open("GET", "app/tpl/views/" + pageName + ".html", false);
+        xhr.send();
+
+        if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText.length > 0)) {
+            var wrapper = document.createElement("div");
+            wrapper.innerHTML = xhr.responseText;
+
+            c.innerHTML = "";
+            while (wrapper.firstChild) c.appendChild(wrapper.firstChild);
+
+            var scripts = c.getElementsByTagName("script");
+            for (var i = 0; i < scripts.length; i++) {
+                var s = document.createElement("script");
+                if (scripts[i].src) s.src = scripts[i].src;
+                else s.text = scripts[i].text;
+                scripts[i].parentNode.replaceChild(s, scripts[i]);
+            }
+
+            // Fade-in after DOM load
+            setTimeout(function() {
+                c.classList.add("visible");
+                c.setAttribute("data-current-page", pageName);
+            }, 20);
+
+            this.attachNavigation();
+
+            if (pageName === "login") sideBar.style.display = "none";
+            else sideBar.style.display = "block";
         } else {
-          this.container.innerHTML = "<h3>Page not found</h3>";
+            c.innerHTML = "<h3>Page not found</h3>";
         }
-      } else {
-        // Already attempted 404 page and it doesn't exist
-        this.container.innerHTML = "<h3>Page not found</h3>";
-      }
-      return; // Stop execution early
-    }
+    }.bind(this);
 
-    // Load page content synchronously via XMLHttpRequest ActiveX
-    var xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    xhr.open("GET", "app/tpl/views/" + pageName + ".html", false);
-    xhr.send();
-
-    if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText.length > 0)) {
-      // Parse response text into DOM nodes
-      var wrapper = document.createElement("div");
-      wrapper.innerHTML = xhr.responseText;
-
-      this.container.innerHTML = "";
-
-      // Move all nodes into container
-      while (wrapper.firstChild) {
-        this.container.appendChild(wrapper.firstChild);
-      }
-
-      // Re-execute scripts in loaded content
-      var scripts = this.container.getElementsByTagName("script");
-      for (var i = 0; i < scripts.length; i++) {
-        var s = document.createElement("script");
-        if (scripts[i].src) {
-          s.src = scripts[i].src;
-        } else {
-          s.text = scripts[i].text;
-        }
-        scripts[i].parentNode.replaceChild(s, scripts[i]);
-      }
-      this.attachNavigation();
+    // Logic to fade out login only
+    if (currentPage === "login" && pageName !== "login") {
+        c.classList.remove("visible");
+        setTimeout(performLoad, 200); // Wait for fade-out
     } else {
-      this.container.innerHTML = "<h3>Page not found</h3>";
+        performLoad(); // No delay, just load
     }
-  } catch (e) {
-    // Show error message in container on exception
-    this.container.innerHTML = "<h3>Error loading page: " + e.message + "</h3>";
-  }
 };
+
 
 /**
  * Attaches onclick event handlers to buttons and links with a data-page attribute.
  * Clicking these elements loads the specified page via the loader.
  */
 PageLoader.prototype.attachNavigation = function() {
-  var elements = [];
-  var buttons = document.getElementsByTagName("button");
-  var links = document.getElementsByTagName("a");
+    var elements = [];
+    var buttons = document.getElementsByTagName("button");
+    var links = document.getElementsByTagName("a");
 
-  // Collect all buttons and links
-  for (var i = 0; i < buttons.length; i++) elements.push(buttons[i]);
-  for (var i = 0; i < links.length; i++) elements.push(links[i]);
+    // Collect all buttons and links
+    for (var i = 0; i < buttons.length; i++) elements.push(buttons[i]);
+    for (var i = 0; i < links.length; i++) elements.push(links[i]);
 
-  // Attach click handlers to elements with data-page attribute
-  for (var i = 0; i < elements.length; i++) {
-    (function(el, self) {
-      var page = el.getAttribute("data-page");
-      if (page) {
-        el.onclick = function() {
-          self.load(page);
-          return false; // Prevent default link/button action
-        };
-      }
-    })(elements[i], this);
-  }
+    // Attach click handlers to elements with data-page attribute
+    for (var i = 0; i < elements.length; i++) {
+        (function(el, self) {
+            var page = el.getAttribute("data-page");
+            if (page) {
+                el.onclick = function() {
+                    self.load(page);
+                    return false; // Prevent default link/button action
+                };
+            }
+        })(elements[i], this);
+    }
 };

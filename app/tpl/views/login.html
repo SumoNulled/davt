@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>Login</title>
-   </head>
-   <body>
-      <h2>Login</h2>
-      <label for="username">Username:</label><br />
-      <input type="text" id="username" name="username" /><br />
-      <label for="password">Password:</label><br />
-      <input type="password" id="password" name="password" /><br /><br />
-      <button onclick="handleLoginClick()">Login</button>
-      <div id="loginMessage"></div>
-      <!-- Move script to the end of body -->
-      <script type="text/javascript">
-         function trim(str) {
-           return str.replace(/^\s+|\s+$/g, '');
-         }
+<head>
+  <title>Login</title>
+</head>
+<body>
+  <div id="loginContainer">
+    <div class="left-pane">
+      <form id="loginForm" onsubmit="handleLoginClick(); return false;">
+        <h2>Login</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" />
+        <button type="submit">Login</button>
+        <div id="loginMessage"></div>
+      </form>
+    </div>
+    <div class="right-pane">
+      <div class="infoText">
+        <h2>Welcome to DAVT</h2>
+        <p>The Drafting and Validation Tool (DAVT).<br/>Accuracy, validation, and compliance.</p>
+      </div>
+    </div>
+  </div>
 
-         function handleLoginClick() {
-           var username = trim(document.getElementById("username").value);
-           var password = document.getElementById("password").value;
-           var user = Models.User.validateCredentials(username, password);
+  <script type="text/javascript">
+    function trim(str) {
+      return str.replace(/^\s+|\s+$/g, '');
+    }
 
-         if (user) {
-           window.session.isLoggedIn = true,
-           window.session.user = user,
-           window.session.startTime = Math.floor(Date.now() / 1000);
-           //window.execScript('MsgBox "Login successful!", 64, "Success"', 'VBScript');
-           Loaders.Page.load("dashboard");
-         } else {
-           window.execScript('MsgBox "Invalid username or password.", 48, "Login Failed"', 'VBScript');
-         }
+    function handleLoginClick() {
+      var username = trim(document.getElementById("username").value);
+      var password = document.getElementById("password").value;
+      var user = Models.User.validateCredentials(username, password);
 
-         }
-      </script>
-   </body>
+      if (user) {
+        window.session.isLoggedIn = true;
+        window.session.user = user;
+        window.session.startTime = Math.floor(Date.now() / 1000);
+        Loaders.Page.load("dashboard");
+      } else {
+        alert("Invalid username or password.");
+      }
+    }
+  </script>
+</body>
 </html>

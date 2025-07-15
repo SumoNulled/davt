@@ -1,6 +1,44 @@
 html, body {
   margin: 0; padding: 0; height: 100%;
   font-family: Calibri;
+  color: #DFD0B8;
+  background-color: white;
+}
+
+#appContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 0px solid blue;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#viewContainer {
+  height: 100%;
+  border: 0px solid red;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#viewContainer.visible {
+  opacity: 1;
+}
+
+
+#headerBar {
+  background-color: #131C28;
+  width:100%;
+  height:20px;
+  background-color:black;
+  cursor:move;
+}
+
+#navBar {       /* fixed height */
+  background-color: #222831;
+  line-height: 50px;
+  padding-left: 10px;
 }
 
 .classification {
@@ -40,30 +78,78 @@ html, body {
   color: white;
 }
 
-iframe {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%;
+#loginContainer {
+  display: flex;
   height: 100%;
-  border: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
 }
-#navbar {       /* fixed height */
-  background: #333;
+
+.left-pane {
+  width: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  border-right: 2px solid #cce7ff;
+}
+
+#loginForm {
+  width: 100%;
+  max-width: 300px;
+}
+
+#loginForm h2 {
+  color: #007acc;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#loginForm label {
+  display: block;
+  margin-bottom: 5px;
+  color: #007acc;
+}
+
+#loginForm input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  box-sizing: border-box;
+}
+
+#loginForm button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007acc;
   color: white;
-  line-height: 50px;
-  padding-left: 10px;
-}
-
-#contentContainer {
-  height: calc(100vh - 50px);  /* full viewport height minus navbar */
-  width: 100%;
-}
-
-#contentFrame {
-  width: 100%;
-  height: 100%;
   border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#loginForm button:hover {
+  background-color: #005f99;
+}
+
+.right-pane {
+  width: 50%;
+  background: linear-gradient(to top, #026db5, #87c7ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 40px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.right-pane h2 {
+  margin-bottom: 10px;
+}
+
+.infoText {
+  max-width: 400px;
 }

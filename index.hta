@@ -4,31 +4,73 @@
       <hta:application
          id="app"
          applicationname="DAVTApp"
-         border="dialog"
+         innerborder="no"
+         border="none"
          borderstyle="normal"
          caption="yes"
-         contextmenu="no"
+         contextmenu="yes"
          icon="styles/favicon.ico"
-         maximizebutton="yes"
+         maximizebutton="no"
          scroll="no"
+         sysmenu="yes"
+         showintaskbar="yes"
          navigable="no"
          singleinstance="yes"
          windowstate="normal" />
-      <title>Drafting and Validation Tool (DAVT)</title>
+      <title>DAVT</title>
       <link rel="stylesheet" href="styles/style.css" type="text/css">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <script type="text/javascript">
+         // Script to set the program's size and ensure it is centered on the screen.
+          var width = 1280;
+          var height = 720;
+
+          var x = (screen.availWidth - width) / 2;
+          var y = (screen.availHeight - height) / 2;
+
+          window.resizeTo(width, height);
+          window.moveTo(x, y);
+      </script>
    </head>
    <body>
-      <div id="classification"></div>
-      <div id="navbar">
-         <button data-page="login">Home</button>
-         <button data-page="dashboard">Dashboard</button>
+      <div id="appContainer">
+         <div id="classification"></div>
+         <!--<div id="headerBar"></div>-->
+         <div id="sideBar">
+            <button data-page="login">Home</button>
+            <button data-page="dashboard">Dashboard</button>
+         </div>
+         <div id="viewContainer"></div>
+         <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
+         <script type="text/javascript" src="app/tpl/services/Database.js"></script>
+         <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
+         <script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
+         <script type="text/javascript" src="js/globals/session.js"></script>
+         <script type="text/javascript" src="js/controllers/index.js"></script>
+         <script language="VBScript">
+            Dim isDragging, offsetX, offsetY
+
+            Sub headerBar_OnMouseDown()
+                isDragging = True
+                offsetX = window.event.screenX - window.screenLeft
+                offsetY = window.event.screenY - window.screenTop
+            End Sub
+
+            Sub document_OnMouseMove()
+                If isDragging Then
+                    window.moveTo window.event.screenX - offsetX, window.event.screenY - offsetY
+                End If
+            End Sub
+
+            Sub document_OnMouseUp()
+                isDragging = False
+            End Sub
+         </script>
       </div>
-      <div id="viewContainer" style="padding:10px;"></div>
-      <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
-      <script type="text/javascript" src="app/tpl/services/Database.js"></script>
-      <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
-      <script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
-      <script type="text/javascript" src="js/globals/session.js"></script>
-      <script type="text/javascript" src="js/controllers/index.js"></script>
    </body>
 </html>
+<!-- TO-DO List
+   - Update session timeout so that user actions reset the timer. Accomplish this by converting session start time to last active time.
+   - Clean up files. Move methods to their own classes where neccessary.
+   - Improve login functionality. Hash passwords.
+ -->
