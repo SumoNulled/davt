@@ -1,67 +1,87 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Login</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-</head>
-<body>
-  <div id="loginContainer">
-    <div class="left-pane">
-      <form id="loginForm" onsubmit="handleLoginClick(); return false;">
-        <h2>Login</h2>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" />
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" />
-        <button type="submit">Login</button>
-        <div id="loginMessage"></div>
-      </form>
-    </div>
-    <div class="right-pane">
-      <div class="infoText">
-        <h2>Welcome to DAVT</h2>
-        <p>The Drafting and Validation Tool (DAVT).<br/>Accuracy, validation, and compliance.</p>
+   <head>
+      <title>Login</title>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   </head>
+   <body>
+      <div id="loginContainer">
+         <div class="left-pane">
+            <form id="loginForm" onsubmit="handleLoginClick(); return false;">
+               <h2>Login</h2>
+               <label for="username">Username</label>
+               <input type="text" id="username" name="username" />
+               <label for="password">Password</label>
+               <input type="password" id="password" name="password" />
+               <button type="submit">Login</button>
+               <div id="loginMessage" style="padding: 10px 0px"></div>
+            </form>
+         </div>
+         <div class="right-pane">
+            <div class="infoText">
+               <h2>Welcome to DAVT</h2>
+               <p>The Drafting and Validation Tool (DAVT).<br/>Accuracy, validation, and compliance.</p>
+            </div>
+         </div>
       </div>
-    </div>
-  </div>
+      <script type="text/javascript">
+         var loginView = document.getElementById("loginView");
+         loginView.classList.remove("fade-out");
+         loginView.classList.add("fade-in");
 
-  <script type="text/javascript">
-  var loginView = document.getElementById("loginView");
-  loginView.classList.remove("fade-out");
-  loginView.classList.add("fade-in");
+         function trim(str) {
+         return str.replace(/^\s+|\s+$/g, '');
+         }
 
-    function trim(str) {
-      return str.replace(/^\s+|\s+$/g, '');
-    }
+         var a = document.getElementById("appContainer");
+         var l = document.getElementById("loginContainer");
+         var message = document.getElementById("loginMessage");
 
-    var a = document.getElementById("appContainer");
-    var l = document.getElementById("loginContainer");
+         function handleLoginClick() {
+         var username = trim(document.getElementById("username").value);
+         var password = document.getElementById("password").value;
+         var user = Models.User.validateCredentials(username, password);
 
-    function handleLoginClick() {
-      var username = trim(document.getElementById("username").value);
-      var password = document.getElementById("password").value;
-      var user = Models.User.validateCredentials(username, password);
+         if (user) {
+           message.innerHTML = "";
+           message.style.color = "green";
+           message.innerHTML = "Success! Establishing session";
+           let count = 0;
 
-      if (user) {
-        window.session.isLoggedIn = true;
-        window.session.user = user;
-        window.session.startTime = Math.floor(Date.now() / 1000);
-        a.classList.add('fade-in');
-        l.classList.add('fade-out');
+           var interval = setInterval(function() {
+               count = (count + 1) % 4;
+               var dots = "";
+               for (var i = 0; i < count; i++) {
+                   dots += ".";
+               }
+               message.innerHTML = "Success! Establishing session" + dots;
+           }, 250);
+           window.session.isLoggedIn = true;
+           window.session.user = user;
+           window.session.startTime = Math.floor(Date.now() / 1000);
+           setTimeout(function() {
+               a.classList.add('fade-in');
+               l.classList.add('fade-out');
+           }, 3000); // 2 seconds delay
 
-        l.addEventListener('transitionend', function handler(event) {
-          if (event.propertyName === 'opacity') {
-            l.parentNode.removeChild(l);      // Remove from DOM
-            l.removeEventListener('transitionend', handler); // Clean up listener
-          }
-        });
 
-        Loaders.Page.load("dashboard");
+           l.addEventListener('transitionend', function handler(event) {
+               if (event.propertyName === 'opacity') {
+                   if (l && l.parentNode) {
+                       l.parentNode.removeChild(l);
+                   }
+                   l.removeEventListener('transitionend', handler); // Clean up listener
+               }
+           });
 
-      } else {
-        alert("Invalid username or password.");
-      }
-    }
-  </script>
-</body>
+           Loaders.Page.load("dashboard");
+
+         } else {
+           message.style.color = "red";
+           message.innerHTML = "Invalid username or password. Please try again.";
+           alert("Invalid username or password.");
+         }
+         }
+      </script>
+   </body>
 </html>
