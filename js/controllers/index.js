@@ -13,15 +13,17 @@ function Index() {
  * @param {string} defaultPage The page to load by default.
  */
 Index.prototype.loadDefault = function(defaultPage) {
-  defaultPage = defaultPage || "login";
+  defaultPage = defaultPage || "dashboard";
   this.views.load(defaultPage);
+  document.getElementById("appContainer").classList.add("fade-in");
 };
 
 // Usage: Initialize and run when document is ready
 window.onload = function() {
-  var index = new Index("viewContainer");
-  index.loadDefault();
+  var index = new Index();
+  //index.loadDefault();
+  Loaders.Login.load('login');
   var classificationBar = document.getElementById("classification");
   classificationBar.className = "classification unclassified"; // replace secret with any level
-  //classificationBar.innerHTML = "UNCLASSIFIED";
+  classificationBar.innerHTML = "UNCLASSIFIED";
 };

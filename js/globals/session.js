@@ -5,7 +5,8 @@ window.Models = {
 }
 
 window.Loaders = {
-  Page: new PageLoader('viewContainer')
+  Page: new PageLoader('viewContainer'),
+  Login: new PageLoader('loginView')
 }
 
 window.session = {

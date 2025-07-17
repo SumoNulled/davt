@@ -2,10 +2,9 @@ html, body {
   margin: 0; padding: 0; height: 100%;
   font-family: Calibri;
   color: #DFD0B8;
-  background-color: white;
 }
 
-#appContainer {
+#appContainer, #loginView {
   position: absolute;
   top: 0;
   left: 0;
@@ -16,29 +15,110 @@ html, body {
   overflow: hidden;
 }
 
+#appContainer {
+  background-color: red;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
 #viewContainer {
   height: 100%;
   border: 0px solid red;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  background-color: white;
+  padding: 1px;
 }
-#viewContainer.visible {
-  opacity: 1;
+
+#sideBar {
+  background-color: black;
+  padding: 15px 30px;
+  overflow: hidden; /* Contain floats */
+  height: 60px;
+  font-family: "Segoe UI", "Segoe UI Symbol";
+}
+
+.nav-left,
+.nav-right {
+  display: table;
+  height: 100%;
+}
+
+.nav-cell {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.nav-left {
+  float: left;
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+
+.nav-right {
+  float: right;
+}
+
+.nav-right input {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.nav-right button {
+  font-size: 18px;
+  margin-left: 5px;
 }
 
 
-#headerBar {
-  background-color: #131C28;
-  width:100%;
-  height:20px;
-  background-color:black;
-  cursor:move;
+.search-box {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  font-size: 14px;
 }
+
+.power-btn {
+  margin-left: 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  font-size: 16px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: "Segoe UI Symbol";
+}
+
+
 
 #navBar {       /* fixed height */
   background-color: #222831;
   line-height: 50px;
   padding-left: 10px;
+}
+
+#sideBar table {
+  border: 1px solid red;
+  width: 100%;
+}
+
+#sideBar td, tr {
+  border: 1px solid blue;
 }
 
 .classification {
@@ -81,6 +161,8 @@ html, body {
 #loginContainer {
   display: flex;
   height: 100%;
+  background-color: white;
+  z-index: 1;
 }
 
 .left-pane {
@@ -96,11 +178,11 @@ html, body {
 
 #loginForm {
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
 }
 
 #loginForm h2 {
-  color: #007acc;
+  color: #145da0;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -108,12 +190,12 @@ html, body {
 #loginForm label {
   display: block;
   margin-bottom: 5px;
-  color: #007acc;
+  color: #145da0;
 }
 
 #loginForm input {
   width: 100%;
-  padding: 8px;
+  padding: 12px;
   margin-bottom: 15px;
   border-radius: 5px;
   border: 1px solid #aaa;
@@ -122,8 +204,8 @@ html, body {
 
 #loginForm button {
   width: 100%;
-  padding: 10px;
-  background-color: #007acc;
+  padding: 15px;
+  background-color: #145da0;
   color: white;
   border: none;
   border-radius: 5px;
@@ -131,12 +213,12 @@ html, body {
 }
 
 #loginForm button:hover {
-  background-color: #005f99;
+  background-color: #0a2740;
 }
 
 .right-pane {
   width: 50%;
-  background: linear-gradient(to top, #026db5, #87c7ff);
+  background: linear-gradient(to top, #0a2740, #145da0); /* Dark blue gradient */
   display: flex;
   justify-content: center;
   align-items: center;

@@ -4,13 +4,21 @@
   <title>Dashboard</title>
 </head>
 <body>
-  <script type="text/javascript">
-  (function () {
+<div>
+  <p>Welcome</p>
+  <p>This is the main content area.</p>
+</div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+(function () {
 if (!validateSession()) return;  // Call it and stop if invalid
 
 if (typeof session === "undefined" || !session.isLoggedIn) {
-  document.getElementById("viewContainer").innerHTML = "Access denied.";
-  return;
+document.getElementById("viewContainer").innerHTML = "Access denied.";
+return;
 }
 
 // Continue initializing dashboard
@@ -18,88 +26,22 @@ if (typeof session === "undefined" || !session.isLoggedIn) {
 
 // Your validateSession function can be outside or inside this closure
 function validateSession() {
-  if (!window.session.isLoggedIn || !window.session.startTime) {
-    Loaders.Page.load("login");
-    return false;
-  }
+if (!window.session.isLoggedIn || !window.session.startTime) {
+  Loaders.Page.load("login");
+  return false;
+}
 
-  var now = Math.floor(Date.now() / 1000);
-  if ((now - window.session.startTime) > window.session.timeoutSeconds) {
-    alert("Session expired. Redirecting to login.");
-    window.session.isLoggedIn = false;
-    window.session.userId = null;
-    window.session.startTime = null;
-    Loaders.Page.load("login");
-    return false;
-  }
+var now = Math.floor(Date.now() / 1000);
+if ((now - window.session.startTime) > window.session.timeoutSeconds) {
+  alert("Session expired. Redirecting to login.");
+  window.session.isLoggedIn = false;
+  window.session.userId = null;
+  window.session.startTime = null;
+  Loaders.Page.load("login");
+  return false;
+}
 
-  return true;
+return true;
 }
 })();
-  </script>
-
-  <div id="sidebar">
-  <button id="toggleBtn">☰</button>
-  <div id="sidebarContent">
-    <p>Menu Item 1</p>
-    <p>Menu Item 2</p>
-  </div>
-</div>
-
-<div id="mainContent">
-  <h1>Welcome</h1>
-  <p>This is the main content area.</p>
-</div>
-
-<style>
-  #sidebar {
-    width: 200px;
-    background-color: #2c3e50;
-    color: white;
-    height: 100%;
-    position: absolute;
-    transition: width 0.3s;
-    overflow: hidden;
-  }
-
-  #sidebar.collapsed {
-    width: 40px;
-  }
-
-  #toggleBtn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    margin: 10px;
-    cursor: pointer;
-  }
-
-  #sidebarContent {
-    padding: 10px;
-  }
-
-  #sidebar.collapsed #sidebarContent {
-    display: none;
-  }
-
-  #mainContent {
-    margin-left: 200px;
-    padding: 20px;
-    transition: margin-left 0.3s;
-  }
-
-  #sidebar.collapsed + #mainContent {
-    margin-left: 40px;
-  }
-</style>
-
-<!-- Move script here so DOM is loaded first -->
-<script type="text/javascript">
-  document.getElementById("toggleBtn").onclick = function () {
-    document.getElementById("sidebar").classList.toggle("collapsed");
-  };
 </script>
-
-</body>
-</html>

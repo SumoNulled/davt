@@ -17,7 +17,7 @@
          navigable="no"
          singleinstance="yes"
          windowstate="normal" />
-      <title>DAVT</title>
+      <title>Drafting & Validation Tool</title>
       <link rel="stylesheet" href="styles/style.css" type="text/css">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <script type="text/javascript">
@@ -33,12 +33,21 @@
       </script>
    </head>
    <body>
-      <div id="appContainer">
+      <div id="loginView" class="fade-out"></div>
+      <div id="appContainer" class="fade-out">
          <div id="classification"></div>
          <!--<div id="headerBar"></div>-->
          <div id="sideBar">
-            <button data-page="login">Home</button>
-            <button data-page="dashboard">Dashboard</button>
+            <div class="nav-left">
+               <div class="nav-cell">DAVT</div>
+            </div>
+            <div class="nav-right">
+               <div class="nav-cell">
+                  <input type="text" placeholder="Search" />
+                  <button>&#128269;</button>
+                  <button>&#x23FB;</button>
+               </div>
+            </div>
          </div>
          <div id="viewContainer"></div>
          <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
@@ -73,4 +82,5 @@
    - Update session timeout so that user actions reset the timer. Accomplish this by converting session start time to last active time.
    - Clean up files. Move methods to their own classes where neccessary.
    - Improve login functionality. Hash passwords.
- -->
+   - Fix up page loading. Make it show/hide views. Make sure to remove old views from the DOM.
+   -->

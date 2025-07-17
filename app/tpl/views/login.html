@@ -2,15 +2,16 @@
 <html>
 <head>
   <title>Login</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 <body>
   <div id="loginContainer">
     <div class="left-pane">
       <form id="loginForm" onsubmit="handleLoginClick(); return false;">
         <h2>Login</h2>
-        <label for="username">Username:</label>
+        <label for="username">Username</label>
         <input type="text" id="username" name="username" />
-        <label for="password">Password:</label>
+        <label for="password">Password</label>
         <input type="password" id="password" name="password" />
         <button type="submit">Login</button>
         <div id="loginMessage"></div>
@@ -25,9 +26,16 @@
   </div>
 
   <script type="text/javascript">
+  var loginView = document.getElementById("loginView");
+  loginView.classList.remove("fade-out");
+  loginView.classList.add("fade-in");
+
     function trim(str) {
       return str.replace(/^\s+|\s+$/g, '');
     }
+
+    var a = document.getElementById("appContainer");
+    var l = document.getElementById("loginContainer");
 
     function handleLoginClick() {
       var username = trim(document.getElementById("username").value);
@@ -38,7 +46,18 @@
         window.session.isLoggedIn = true;
         window.session.user = user;
         window.session.startTime = Math.floor(Date.now() / 1000);
+        a.classList.add('fade-in');
+        l.classList.add('fade-out');
+
+        l.addEventListener('transitionend', function handler(event) {
+          if (event.propertyName === 'opacity') {
+            l.parentNode.removeChild(l);      // Remove from DOM
+            l.removeEventListener('transitionend', handler); // Clean up listener
+          }
+        });
+
         Loaders.Page.load("dashboard");
+
       } else {
         alert("Invalid username or password.");
       }

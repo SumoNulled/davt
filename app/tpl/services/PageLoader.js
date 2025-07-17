@@ -43,28 +43,14 @@ PageLoader.prototype.load = function(pageName, is404Attempt) {
                 scripts[i].parentNode.replaceChild(s, scripts[i]);
             }
 
-            // Fade-in after DOM load
-            setTimeout(function() {
-                c.classList.add("visible");
-                c.setAttribute("data-current-page", pageName);
-            }, 20);
-
             this.attachNavigation();
 
-            if (pageName === "login") sideBar.style.display = "none";
-            else sideBar.style.display = "block";
         } else {
             c.innerHTML = "<h3>Page not found</h3>";
         }
     }.bind(this);
 
-    // Logic to fade out login only
-    if (currentPage === "login" && pageName !== "login") {
-        c.classList.remove("visible");
-        setTimeout(performLoad, 200); // Wait for fade-out
-    } else {
-        performLoad(); // No delay, just load
-    }
+    performLoad();
 };
 
 
