@@ -12,46 +12,38 @@ function PageLoader(containerId) {
  * Handles file existence, 404 fallback, and script execution.
  *
  * @param {string} pageName - Name of the page (filename without extension).
- * @param {boolean} is404Attempt - Internal flag to prevent infinite 404 recursion.
  */
-PageLoader.prototype.load = function(pageName, is404Attempt) {
-    var fso = new ActiveXObject("Scripting.FileSystemObject");
-    var folder = "app\\tpl\\views\\";
-    var path = folder + pageName + ".html";
-    var c = this.container;
+ PageLoader.prototype.load = function(pageName) {
+     var fso = new ActiveXObject("Scripting.FileSystemObject");
+     var folder = "app\\tpl\\views\\";
+     var path = folder + pageName + ".html";
+     var c = this.container;
 
-    var currentPage = c.getAttribute("data-current-page"); // Save current page
+     var xhr = new ActiveXObject("Microsoft.XMLHTTP");
+     xhr.open("GET", "app/tpl/views/" + pageName + ".html", false);
+     xhr.send();
 
-    var performLoad = function() {
-        // Actual page loading logic
-        var xhr = new ActiveXObject("Microsoft.XMLHTTP");
-        xhr.open("GET", "app/tpl/views/" + pageName + ".html", false);
-        xhr.send();
+     if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText.length > 0)) {
+         var wrapper = document.createElement("div");
+         wrapper.innerHTML = xhr.responseText;
 
-        if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText.length > 0)) {
-            var wrapper = document.createElement("div");
-            wrapper.innerHTML = xhr.responseText;
+         c.innerHTML = "";
+         while (wrapper.firstChild) c.appendChild(wrapper.firstChild);
 
-            c.innerHTML = "";
-            while (wrapper.firstChild) c.appendChild(wrapper.firstChild);
+         var scripts = c.getElementsByTagName("script");
+         for (var i = 0; i < scripts.length; i++) {
+             var s = document.createElement("script");
+             if (scripts[i].src) s.src = scripts[i].src;
+             else s.text = scripts[i].text;
+             scripts[i].parentNode.replaceChild(s, scripts[i]);
+         }
 
-            var scripts = c.getElementsByTagName("script");
-            for (var i = 0; i < scripts.length; i++) {
-                var s = document.createElement("script");
-                if (scripts[i].src) s.src = scripts[i].src;
-                else s.text = scripts[i].text;
-                scripts[i].parentNode.replaceChild(s, scripts[i]);
-            }
+         this.attachNavigation();
 
-            this.attachNavigation();
-
-        } else {
-            c.innerHTML = "<h3>Page not found</h3>";
-        }
-    }.bind(this);
-
-    performLoad();
-};
+     } else {
+         c.innerHTML = "<h3>Page not found</h3>";
+     }
+ };
 
 
 /**
@@ -79,4 +71,8 @@ PageLoader.prototype.attachNavigation = function() {
             }
         })(elements[i], this);
     }
+};
+
+PageLoader.prototype.setContainer = function(id) {
+    this.container = document.getElementById(id);
 };

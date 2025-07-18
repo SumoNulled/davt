@@ -20,62 +20,16 @@
       <title>Drafting & Validation Tool</title>
       <link rel="stylesheet" href="styles/style.css" type="text/css">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <script type="text/javascript">
-         // Script to set the program's size and ensure it is centered on the screen.
-          var width = 1280;
-          var height = 720;
-
-          var x = (screen.availWidth - width) / 2;
-          var y = (screen.availHeight - height) / 2;
-
-          window.resizeTo(width, height);
-          window.moveTo(x, y);
-      </script>
+      <script type="text/javascript" src="js/globals/center.js"></script>
    </head>
    <body>
-      <div id="loginView" class="fade-out"></div>
-      <div id="appContainer" class="fade-out">
-         <div id="classification"></div>
-         <!--<div id="headerBar"></div>-->
-         <div id="sideBar">
-            <div class="nav-left">
-               <div class="nav-cell">DAVT</div>
-            </div>
-            <div class="nav-right">
-               <div class="nav-cell">
-                  <input type="text" placeholder="Search" />
-                  <button>&#128269;</button>
-                  <button>&#x23FB;</button>
-               </div>
-            </div>
-         </div>
-         <div id="viewContainer"></div>
-         <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
-         <script type="text/javascript" src="app/tpl/services/Database.js"></script>
-         <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
-         <script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
-         <script type="text/javascript" src="js/globals/session.js"></script>
-         <script type="text/javascript" src="js/controllers/index.js"></script>
-         <script language="VBScript">
-            Dim isDragging, offsetX, offsetY
-
-            Sub headerBar_OnMouseDown()
-                isDragging = True
-                offsetX = window.event.screenX - window.screenLeft
-                offsetY = window.event.screenY - window.screenTop
-            End Sub
-
-            Sub document_OnMouseMove()
-                If isDragging Then
-                    window.moveTo window.event.screenX - offsetX, window.event.screenY - offsetY
-                End If
-            End Sub
-
-            Sub document_OnMouseUp()
-                isDragging = False
-            End Sub
-         </script>
-      </div>
+      <div id="root"></div>
+      <script type="text/javascript" src="app/config/DatabaseConfig.js"></script>
+      <script type="text/javascript" src="app/tpl/services/Database.js"></script>
+      <script type="text/javascript" src="app/tpl/models/UserModel.js"></script>
+      <script type="text/javascript" src="app/tpl/services/PageLoader.js"></script>
+      <script type="text/javascript" src="js/globals/session.js"></script>
+      <script type="text/javascript" src="js/controllers/index.js"></script>
    </body>
 </html>
 <!-- TO-DO List

@@ -5,26 +5,29 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
    </head>
    <body>
-      <div id="loginContainer">
-         <div class="left-pane">
-            <form id="loginForm" onsubmit="handleLoginClick(); return false;">
-               <h2>Login</h2>
-               <label for="username">Username</label>
-               <input type="text" id="username" name="username" />
-               <label for="password">Password</label>
-               <input type="password" id="password" name="password" />
-               <button type="submit">Login</button>
-               <div id="loginMessage" style="padding: 10px 0px; min-height: 1.5em"> </div>
-            </form>
-         </div>
-         <div class="right-pane">
-            <div class="infoText">
-               <h2>Welcome to DAVT</h2>
-               <p>The Drafting and Validation Tool (DAVT).<br/>Accuracy, validation, and compliance.</p>
+      <div id="loginView">
+         <div id="loginContainer">
+            <div class="left-pane">
+               <form id="loginForm" onsubmit="handleLoginClick(); return false;">
+                  <h2>Login</h2>
+                  <label for="username">Username</label>
+                  <input type="text" id="username" name="username" />
+                  <label for="password">Password</label>
+                  <input type="password" id="password" name="password" />
+                  <button type="submit">Login</button>
+                  <div id="loginMessage" style="padding: 10px 0px; min-height: 1.5em"> </div>
+               </form>
+            </div>
+            <div class="right-pane">
+               <div class="infoText">
+                  <h2>Welcome to DAVT</h2>
+                  <p>The Drafting and Validation Tool (DAVT).<br/>Accuracy, validation, and compliance.</p>
+               </div>
             </div>
          </div>
       </div>
       <script type="text/javascript">
+         document.getElementById('username').focus();
          var loginView = document.getElementById("loginView");
          loginView.classList.remove("fade-out");
          loginView.classList.add("fade-in");
@@ -33,7 +36,6 @@
          return str.replace(/^\s+|\s+$/g, '');
          }
 
-         var a = document.getElementById("appContainer");
          var l = document.getElementById("loginContainer");
          var message = document.getElementById("loginMessage");
 
@@ -60,21 +62,33 @@
            window.session.user = user;
            window.session.startTime = Math.floor(Date.now() / 1000);
            setTimeout(function() {
-               a.classList.add('fade-in');
-               l.classList.add('fade-out');
+             l.classList.add('fade-out');
            }, 3000); // 2 seconds delay
 
 
            l.addEventListener('transitionend', function handler(event) {
-               if (event.propertyName === 'opacity') {
-                   if (l && l.parentNode) {
-                       l.parentNode.removeChild(l);
-                   }
-                   l.removeEventListener('transitionend', handler); // Clean up listener
-               }
-           });
+         if (event.propertyName === 'opacity') {
+         if (l && l.parentNode) {
+             Loaders.Root.load("app");
 
-           Loaders.Page.load("dashboard");
+             var a = document.getElementById("appContainer");
+             a.classList.add('fade-in');
+
+             // Wait just one tick before loading the dashboard
+             setTimeout(function () {
+                 Loaders.Page.setContainer("viewContainer");
+                 Loaders.Page.load("dashboard");
+             }, 0);
+         }
+         l.removeEventListener('transitionend', handler); // Clean up listener
+         }
+         });
+
+
+          setTimeout(function () {
+            //Loaders.Page.load("dashboard");
+          }, 50);
+
 
          } else {
            message.style.color = "red";
