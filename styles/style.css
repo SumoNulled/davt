@@ -1,10 +1,36 @@
-html, body {
+/* Reset and base */
+* {
+  box-sizing: border-box;
+}
+body, html {
   margin: 0; padding: 0; height: 100%;
-  font-family: Calibri;
-  color: #DFD0B8;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #05060a; /* almost black */
+  color: #a0a9b8; /* muted light grey-blue */
+}
+body {
+  scrollbar-base-color: #05060a;        /* very dark background */
+  scrollbar-face-color: #151926;       /* dark steel blue (thumb) */
+  scrollbar-track-color: #0d1018;       /* sidebar gradient end */
+  scrollbar-arrow-color: #383d45;       /* muted light grey-blue (arrows) */
+  scrollbar-highlight-color: #5877c6;   /* lighter steel blue (highlight) */
+  scrollbar-shadow-color: #05060a;      /* very dark for shadow */
+  scrollbar-3dlight-color: #12203a;     /* dark muted blue for 3d light */
+  scrollbar-darkshadow-color: #04060a;  /* almost black for dark shadow */
 }
 
-#appContainer, #loginView {
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+/* Layout */
+#appContainer {
+  display: flex;
+  min-height: 100vh;
+}
+
+#loginView {
   position: absolute;
   top: 0;
   left: 0;
@@ -12,12 +38,284 @@ html, body {
   bottom: 0;
   border: 0px solid blue;
   box-sizing: border-box;
-  overflow: hidden;
 }
 
-#appContainer {
-  background-color: red;
+/* Sidebar */
+#sideBar {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #070a13 0%, #0d1018 100%);
+  border-right: 1px solid #121720;
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 0 32px 0;
+  transition: transform 0.3s ease;
 }
+#sideBar.collapsed {
+  transform: translateX(-250px);
+}
+#sideBar .brand {
+  font-weight: 700;
+  font-size: 24px;
+  padding: 0 32px;
+  margin-bottom: 48px;
+  color: #4a6eb1; /* dark steel blue */
+  user-select: none;
+  letter-spacing: 1px;
+}
+#sideBar nav a {
+  display: flex;
+  align-items: center;
+  padding: 16px 32px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #6e7a94; /* dark muted blue-grey */
+  border-left: 4px solid transparent;
+  transition: background-color 0.25s ease, border-left-color 0.3s ease, color 0.3s ease;
+}
+#sideBar nav a:hover,
+#sideBar nav a.active {
+  background: linear-gradient(90deg, #12203a, #18305f);
+  color: #4a6eb1;
+  border-left-color: #4a6eb1;
+}
+#sideBar nav a svg {
+  margin-right: 14px;
+  fill: currentColor;
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+}
+/* Topbar */
+#topBar {
+  background: linear-gradient(90deg, #070a13 0%, #0d1018 100%);
+  max-height: 64px;
+  height: 64px;
+  border-bottom: 1px solid #121720;
+  display: flex;
+  align-items: center;
+  padding: 0 50px 0 40px;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+#topBar .search {
+  position: relative;
+  flex: 0 1 360px; /* don't grow beyond 360px */
+  max-width: 360px;
+  min-width: 200px;
+}
+#topBar input[type="search"] {
+  width: 100%;
+  padding: 8px 36px 8px 14px;
+  border: 1px solid #121720;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #a0a9b8;
+  background: linear-gradient(145deg, #04060a, #0b0e14);
+}
+#topBar input[type="search"]:focus {
+  outline: none;
+  border-color: #4a6eb1;
+}
+#topBar input[type="search"]::placeholder {
+  color: #4c556a;
+}
+#topBar .search svg {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  fill: #4c556a;
+  width: 18px; height: 18px;
+  pointer-events: none;
+}
+#topBar .profile {
+  margin-left: 24px;
+  font-weight: 600;
+  color: #6e7a94;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+#topBar .profile:hover {
+  color: #4a6eb1;
+}
+
+/* Main content */
+#mainContent {
+  flex-grow: 1;
+  background: #05060a;
+  padding: 32px 40px;
+  overflow-y: auto;
+}
+
+#mainContent .page-title {
+  margin-top: 7px;
+}
+/* Cards grid */
+.card-grid {
+  margin-bottom: 24px;
+}
+.card-grid::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.card {
+  background: linear-gradient(145deg, #0a0f19, #0e1320);
+  float: left;
+  width: calc(33.3% - 7.5px); /* 50% minus half of the 10px margin */
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 28px 24px;
+  border-radius: 14px;
+  box-shadow:
+    inset 1px 1px 2px #121720,
+    inset -1px -1px 2px #04060a;
+  color: #a0a9b8;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+.card:nth-child(3n) {
+  margin-right: 0;
+}
+.card:hover {
+  background-color: #12203a;
+}
+.card .icon {
+  font-size: 28px;
+  margin-bottom: 16px;
+  color: #4a6eb1;
+}
+.card h3 {
+  margin: 0 0 12px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #6e7a94;
+}
+.card .value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #4a6eb1;
+}
+
+/* Table section */
+.table-section {
+  background: linear-gradient(145deg, #0a0f19, #0e1320);
+  box-shadow:
+    inset 1px 1px 3px #121720,
+    inset -1px -1px 3px #04060a;
+  border-radius: 14px;
+  padding: 32px;
+}
+.table-section h3 {
+  margin: 0 0 24px;
+  font-weight: 700;
+  font-size: 18px;
+  color: #a0a9b8;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #6e7a94;
+}
+th, td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #121720;
+  text-align: left;
+}
+th {
+  background: #05060a;
+  font-weight: 600;
+  color: #6e7a94;
+  border-bottom: 1px solid #121720;
+}
+tbody tr:hover {
+  background: #12203a;
+  cursor: default;
+}
+
+/* Responsive */
+@media screen and (max-width: 1024px) {
+  .card {
+    width: 48%;
+    margin-right: 4%;
+  }
+  .card:nth-child(2n) {
+    margin-right: 0;
+  }
+}
+@media screen and (max-width: 600px) {
+  #sideBar {
+    position: fixed;
+    z-index: 1000;
+    height: 100%;
+    transform: translateX(-250px);
+    background: #0d1018;
+  }
+  #sideBar.show {
+    transform: translateX(0);
+    box-shadow: 4px 0 12px rgba(0,0,0,0.7);
+  }
+  #appContainer {
+    flex-direction: column;
+  }
+  #mainContent {
+    padding: 20px 24px;
+    margin-top: 64px;
+  }
+  .card-grid {
+    margin-bottom: 24px;
+  }
+  .card {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px;
+    float: none;
+    padding: 20px;
+  }
+}
+@media screen and (max-width: 500px) {
+  #topBar {
+    padding: 0 16px;
+  }
+  #topBar .search {
+    max-width: 100%;
+  }
+}
+
+/* Sidebar toggle button */
+#sidebarToggle {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  background: #4a6eb1;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 20px;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  z-index: 1100;
+  user-select: none;
+}
+#sidebarToggle:hover {
+  background: #5877c6;
+}
+@media screen and (max-width: 900px) {
+  #sidebarToggle {
+    display: block;
+  }
+}
+
+a .icon {
+  margin-right: 8px;
+  display: inline-block;
+  font-size: 15px;
+}
+
 
 .hidden {
   opacity: 0;
@@ -34,91 +332,6 @@ html, body {
 .fade-in {
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
-}
-
-#viewContainer {
-  height: 100%;
-  border: 0px solid red;
-  background-color: white;
-  padding: 1px;
-}
-
-#sideBar {
-  background-color: black;
-  padding: 15px 30px;
-  overflow: hidden; /* Contain floats */
-  height: 60px;
-  font-family: "Segoe UI", "Segoe UI Symbol";
-}
-
-.nav-left,
-.nav-right {
-  display: table;
-  height: 100%;
-}
-
-.nav-cell {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.nav-left {
-  float: left;
-  font-size: 32px;
-  font-weight: bold;
-  color: white;
-}
-
-.nav-right {
-  float: right;
-}
-
-.nav-right input {
-  padding: 5px;
-  font-size: 16px;
-}
-
-.nav-right button {
-  font-size: 18px;
-  margin-left: 5px;
-}
-
-
-.search-box {
-  padding: 5px 10px;
-  border-radius: 4px;
-  border: none;
-  outline: none;
-  font-size: 14px;
-}
-
-.power-btn {
-  margin-left: 10px;
-  background-color: #333;
-  color: white;
-  border: none;
-  font-size: 16px;
-  padding: 6px 10px;
-  cursor: pointer;
-  border-radius: 4px;
-  font-family: "Segoe UI Symbol";
-}
-
-
-
-#navBar {       /* fixed height */
-  background-color: #222831;
-  line-height: 50px;
-  padding-left: 10px;
-}
-
-#sideBar table {
-  border: 1px solid red;
-  width: 100%;
-}
-
-#sideBar td, tr {
-  border: 1px solid blue;
 }
 
 .classification {
@@ -161,19 +374,20 @@ html, body {
 #loginContainer {
   display: flex;
   height: 100%;
-  background-color: white;
-  z-index: 1;
+  background-color: #0a0a0a; /* very dark background */
+  color: #ccc;
+  font-family: Segoe UI, Roboto, sans-serif;
 }
 
 .left-pane {
   width: 50%;
-  background-color: white;
+  background-color: #0a0a0a;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
   box-sizing: border-box;
-  border-right: 2px solid #cce7ff;
+  border-right: 1px solid #1f2a38;
 }
 
 #loginForm {
@@ -182,47 +396,52 @@ html, body {
 }
 
 #loginForm h2 {
-  color: #145da0;
+  color: #ffffff;
   margin-bottom: 20px;
   text-align: center;
+  font-size: 22px;
 }
 
 #loginForm label {
   display: block;
   margin-bottom: 5px;
-  color: #145da0;
+  color: #9aa4b1;
+  font-size: 14px;
 }
 
 #loginForm input {
   width: 100%;
   padding: 12px;
   margin-bottom: 15px;
-  border-radius: 5px;
-  border: 1px solid #aaa;
+  border-radius: 6px;
+  border: 1px solid #2d3a4a;
+  background-color: #0f1115;
+  color: #e0e0e0;
   box-sizing: border-box;
 }
 
 #loginForm button {
   width: 100%;
-  padding: 15px;
-  background-color: #145da0;
-  color: white;
+  padding: 14px;
+  background: linear-gradient(to right, #1b2a38, #243447);
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 #loginForm button:hover {
-  background-color: #0a2740;
+  background: linear-gradient(to right, #223042, #2d4155);
 }
 
 .right-pane {
   width: 50%;
-  background: linear-gradient(to top, #0a2740, #145da0); /* Dark blue gradient */
+  background: linear-gradient(to top, #0a0f18, #131e2a);
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #d0d6dc;
   padding: 40px;
   box-sizing: border-box;
   text-align: center;
@@ -230,8 +449,12 @@ html, body {
 
 .right-pane h2 {
   margin-bottom: 10px;
+  font-size: 24px;
+  color: #f0f0f0;
 }
 
 .infoText {
   max-width: 400px;
+  font-size: 15px;
+  color: #a0aaba;
 }

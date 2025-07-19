@@ -1,47 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Dashboard</title>
-</head>
-<body>
-<div>
-  <p>Welcome</p>
-  <p>This is the main content area.</p>
-</div>
+<h2 class="page-title">Dashboard</h2>
+  <section class="card-grid" aria-label="Dashboard summary">
+    <article class="card" role="region" aria-labelledby="card-users">
+      <div class="icon" aria-hidden="true">&#128100;</div>
+      <h3 id="card-users">Users</h3>
+      <p class="value">1,204</p>
+    </article>
+    <article class="card" role="region" aria-labelledby="card-sessions">
+      <div class="icon" aria-hidden="true">&#128200;</div>
+      <h3 id="card-sessions">Sessions</h3>
+      <p class="value">3,891</p>
+    </article>
+    <article class="card" role="region" aria-labelledby="card-bounce">
+      <div class="icon" aria-hidden="true">&#128202;</div>
+      <h3 id="card-bounce">Bounce Rate</h3>
+      <p class="value">45%</p>
+    </article>
+  </section>
 
-</body>
-</html>
-
-<script type="text/javascript">
-(function () {
-if (!validateSession()) return;  // Call it and stop if invalid
-
-if (typeof session === "undefined" || !session.isLoggedIn) {
-document.getElementById("viewContainer").innerHTML = "Access denied.";
-return;
-}
-
-// Continue initializing dashboard
-// document.getElementById("viewContainer").innerText = "Welcome to the dashboard!";
-
-// Your validateSession function can be outside or inside this closure
-function validateSession() {
-if (!window.session.isLoggedIn || !window.session.startTime) {
-  Loaders.Page.load("login");
-  return false;
-}
-
-var now = Math.floor(Date.now() / 1000);
-if ((now - window.session.startTime) > window.session.timeoutSeconds) {
-  alert("Session expired. Redirecting to login.");
-  window.session.isLoggedIn = false;
-  window.session.userId = null;
-  window.session.startTime = null;
-  Loaders.Page.load("login");
-  return false;
-}
-
-return true;
-}
-})();
-</script>
+  <section class="table-section" aria-label="Recent activity">
+    <h3>Recent Activity</h3>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">User</th>
+          <th scope="col">Action</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Alice</td><td>Logged in</td><td>2025-07-19</td></tr>
+        <tr><td>Bob</td><td>Uploaded a file</td><td>2025-07-18</td></tr>
+        <tr><td>Carol</td><td>Changed settings</td><td>2025-07-17</td></tr>
+        <tr><td>Dan</td><td>Viewed analytics</td><td>2025-07-16</td></tr>
+      </tbody>
+    </table>
+  </section>

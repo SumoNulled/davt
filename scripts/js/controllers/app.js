@@ -4,9 +4,13 @@
  * @param {string} containerId ID of the container element for loading pages.
  */
 function App() {
-  if(!session.isLoggedIn) return false;
+  if(!session.isLoggedIn) {
+    alert("Error: Session not found. Redirecting to login page.");
+    new Login();
+    return false;
+  }
   Loaders.Root.load('app'); // This loads the HTML.
-  Loaders.Page = new PageLoader("viewContainer");
+  Loaders.Page = new PageLoader("mainContent");
   this.views = Loaders.Page;
   this.container = null;
   this.load();

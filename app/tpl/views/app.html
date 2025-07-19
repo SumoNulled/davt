@@ -1,24 +1,58 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta charset="UTF-8" />
+<title>Minimalist Dark Blue-Black Admin Dashboard</title>
+<style>
+
+</style>
+</head>
 <body>
-  <div id="appContainer" class="fade-out">
-     <div id="classification"></div>
-     <!--<div id="headerBar"></div>-->
-     <div id="sideBar">
-        <div class="nav-left">
-           <div class="nav-cell">DAVT</div>
+  <button id="sidebarToggle" aria-label="Toggle sidebar">&#9776;</button>
+  <div id="appContainer">
+    <aside id="sideBar" aria-label="Sidebar Navigation">
+      <div class="brand">DAVT</div>
+      <nav>
+        <a href="#" class="active" aria-current="page">
+        <span class="icon">&#128200;</span> Dashboard
+      </a>
+      <a href="#">
+        <span class="icon">&#128202;</span> Analytics
+      </a>
+      <a href="#">
+        <span class="icon">&#128203;</span> Reports
+      </a>
+      <a href="#">
+        <span class="icon">&#9881;&#65039;</span> Settings
+      </a>
+</nav>
+
+    </aside>
+    <div style="flex-grow:1; display:flex; flex-direction: column;">
+      <header id="topBar">
+        <div class="search" role="search">
+          <input type="search" placeholder="Search..." aria-label="Search dashboard" />
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16a6.471 6.471 0 004.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/></svg>
         </div>
-        <div class="nav-right">
-           <div class="nav-cell">
-              <input type="text" placeholder="Search" />
-              <button>&#128269;</button>
-              <button>&#x23FB;</button>
-           </div>
-        </div>
-     </div>
-     <div id="viewContainer"></div>
+        <div class="profile" tabindex="0" aria-label="User profile menu">Admin</div>
+      </header>
+
+      <main id="mainContent"></main>
+    </div>
   </div>
-  <script type="text/javascript" src="scripts/js/controllers/app.js"></script>
+
+<script>
+  // Sidebar toggle for small screens
+  var sidebar = document.getElementById('sideBar');
+  var toggle = document.getElementById('sidebarToggle');
+  toggle.onclick = function() {
+    if(sidebar.className.indexOf('show') === -1) {
+      sidebar.className += ' show';
+    } else {
+      sidebar.className = sidebar.className.replace(' show', '');
+    }
+  };
+</script>
 </body>
-</html
+</html>
