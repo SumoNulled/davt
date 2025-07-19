@@ -4,6 +4,7 @@
  * @param {string} containerId ID of the container element for loading pages.
  */
 function App() {
+  if(!session.isLoggedIn) return false;
   Loaders.Root.load('app'); // This loads the HTML.
   Loaders.Page = new PageLoader("viewContainer");
   this.views = Loaders.Page;

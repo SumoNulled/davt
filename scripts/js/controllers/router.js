@@ -13,7 +13,7 @@ function Router() {
  * @param {string} defaultPage The page to load by default.
  */
 Router.prototype.loadDefault = function(defaultPage) {
-  new Pages.Login();
+  new Pages.App();
 };
 
 // Usage: Initialize and run when document is ready
