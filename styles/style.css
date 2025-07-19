@@ -7,6 +7,7 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #05060a; /* almost black */
   color: #a0a9b8; /* muted light grey-blue */
+  overflow: hidden;
 }
 body {
   scrollbar-base-color: #05060a;        /* very dark background */
@@ -45,7 +46,7 @@ a {
   min-height: 100vh;
   background: linear-gradient(180deg, #070a13 0%, #0d1018 100%);
   border-right: 1px solid #121720;
-  width: 250px;
+  width: 200px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;

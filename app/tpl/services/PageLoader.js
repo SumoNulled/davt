@@ -21,8 +21,15 @@ function PageLoader(containerId) {
      var folder = "app\\tpl\\views\\";
      var path = folder + pageName + ".html";
 
+     // Check if file exists before trying to load it
+     if (!fso.FileExists(path)) {
+         c.innerHTML = "<h2 class='page-title'>Page not found</h2>";
+         return null;
+     }
+
+     // Read and inject content
      var xhr = new ActiveXObject("Microsoft.XMLHTTP");
-     xhr.open("GET", "app/tpl/views/" + pageName + ".html", false);
+     xhr.open("GET", path, false);
      xhr.send();
 
      if (xhr.status === 200 || (xhr.status === 0 && xhr.responseText.length > 0)) {
@@ -41,39 +48,40 @@ function PageLoader(containerId) {
          }
 
          this.attachNavigation();
-
+         return true;
      } else {
-         c.innerHTML = "<h3>Page not found</h3>";
+         c.innerHTML = "<h3>Page load failed</h3>";
+         return null;
      }
  };
-
 
 /**
  * Attaches onclick event handlers to buttons and links with a data-page attribute.
  * Clicking these elements loads the specified page via the loader.
  */
-PageLoader.prototype.attachNavigation = function() {
-    var elements = [];
-    var buttons = document.getElementsByTagName("button");
-    var links = document.getElementsByTagName("a");
+ PageLoader.prototype.attachNavigation = function() {
+     var elements = [];
 
-    // Collect all buttons and links
-    for (var i = 0; i < buttons.length; i++) elements.push(buttons[i]);
-    for (var i = 0; i < links.length; i++) elements.push(links[i]);
+     // Only get buttons/links inside the container (prevent global hijack)
+     var buttons = this.container.getElementsByTagName("button");
+     var links = this.container.getElementsByTagName("a");
 
-    // Attach click handlers to elements with data-page attribute
-    for (var i = 0; i < elements.length; i++) {
-        (function(el, self) {
-            var page = el.getAttribute("data-page");
-            if (page) {
-                el.onclick = function() {
-                    self.load(page);
-                    return false; // Prevent default link/button action
-                };
-            }
-        })(elements[i], this);
-    }
-};
+     for (var i = 0; i < buttons.length; i++) elements.push(buttons[i]);
+     for (var i = 0; i < links.length; i++) elements.push(links[i]);
+
+     for (var i = 0; i < elements.length; i++) {
+         (function(el, self) {
+             var page = el.getAttribute("data-page");
+             if (page) {
+                 el.onclick = function() {
+                     self.load(page);
+                     return false;
+                 };
+             }
+         })(elements[i], this);
+     }
+ };
+
 
 PageLoader.prototype.setContainer = function(id) {
     this.container = document.getElementById(id);
