@@ -16,7 +16,7 @@ function PageLoader(containerId) {
  PageLoader.prototype.load = function(pageName) {
      var c = this.container;
      if (!c) return null;
-     
+
      var fso = new ActiveXObject("Scripting.FileSystemObject");
      var folder = "app\\tpl\\views\\";
      var path = folder + pageName + ".html";

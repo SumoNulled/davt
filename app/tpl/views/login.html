@@ -5,97 +5,27 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
    </head>
    <body>
-      <div id="loginView">
-         <div id="loginContainer">
-            <div class="left-pane">
-               <form id="loginForm" onsubmit="handleLoginClick(); return false;">
-                  <h2>Login</h2>
-                  <label for="username">Username</label>
-                  <input type="text" id="username" name="username" />
-                  <label for="password">Password</label>
-                  <input type="password" id="password" name="password" />
-                  <button type="submit">Login</button>
-                  <div id="loginMessage" style="padding: 10px 0px; min-height: 1.5em"> </div>
-               </form>
-            </div>
-            <div class="right-pane">
-               <div class="infoText">
-                  <h2>Welcome to DAVT</h2>
-                  <p>The Drafting and Validation Tool (DAVT).<br/>Accuracy, validation, and compliance.</p>
-               </div>
-            </div>
+     <div id="loginView">
+       <div id="loginContainer" class="fade-out">
+         <div class="left-pane">
+           <form id="loginForm">
+             <h2>Login</h2>
+             <label for="username">Username</label>
+             <input type="text" id="username" name="username" />
+             <label for="password">Password</label>
+             <input type="password" id="password" name="password" />
+             <button type="submit">Login</button>
+             <div id="loginMessage" style="padding: 10px 0px; min-height: 1.5em"> </div>
+           </form>
          </div>
-      </div>
-      <script type="text/javascript">
-         document.getElementById('username').focus();
-         var loginView = document.getElementById("loginView");
-         loginView.classList.remove("fade-out");
-         loginView.classList.add("fade-in");
-
-         function trim(str) {
-         return str.replace(/^\s+|\s+$/g, '');
-         }
-
-         var l = document.getElementById("loginContainer");
-         var message = document.getElementById("loginMessage");
-
-         function handleLoginClick() {
-         var username = trim(document.getElementById("username").value);
-         var password = document.getElementById("password").value;
-         var user = Models.User.validateCredentials(username, password);
-
-         if (user) {
-           message.innerHTML = "";
-           message.style.color = "green";
-           message.innerHTML = "Success! Establishing session";
-           let count = 0;
-
-           var interval = setInterval(function() {
-               count = (count + 1) % 4;
-               var dots = "";
-               for (var i = 0; i < count; i++) {
-                   dots += ".";
-               }
-               message.innerHTML = "Success! Establishing session" + dots;
-           }, 250);
-           window.session.isLoggedIn = true;
-           window.session.user = user;
-           window.session.startTime = Math.floor(Date.now() / 1000);
-           setTimeout(function() {
-             l.classList.add('fade-out');
-           }, 3000); // 2 seconds delay
-
-
-           l.addEventListener('transitionend', function handler(event) {
-         if (event.propertyName === 'opacity') {
-         if (l && l.parentNode) {
-             Loaders.Root.load("app");
-
-             var a = document.getElementById("appContainer");
-             a.classList.add('fade-in');
-
-             // Wait just one tick before loading the dashboard
-             setTimeout(function () {
-                 Loaders.Page.setContainer("viewContainer");
-                 Loaders.Page.load("dashboard");
-             }, 0);
-         }
-         l.removeEventListener('transitionend', handler); // Clean up listener
-         }
-         });
-
-
-          setTimeout(function () {
-            //Loaders.Page.load("dashboard");
-          }, 50);
-
-
-         } else {
-           message.style.color = "red";
-           message.innerHTML = "Invalid username or password. Please try again.";
-           alert("Invalid username or password.");
-         }
-         }
-      </script>
+         <div class="right-pane">
+           <div class="infoText">
+             <h2>Welcome to DAVT</h2>
+             <p>The Drafting and Validation Tool (DAVT).<br />Accuracy, validation, and compliance.</p>
+           </div>
+         </div>
+       </div>
+     </div>
    </body>
+   <script type="text/javascript" src="js/controllers/login.js"></script>
 </html>

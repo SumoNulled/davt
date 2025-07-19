@@ -3,7 +3,7 @@
  *
  * @param {string} containerId ID of the container element for loading pages.
  */
-function Index() {
+function Router() {
   this.views = Loaders.Root;
 }
 
@@ -12,14 +12,14 @@ function Index() {
  *
  * @param {string} defaultPage The page to load by default.
  */
-Index.prototype.loadDefault = function(defaultPage) {
+Router.prototype.loadDefault = function(defaultPage) {
   //defaultPage = defaultPage || "login";
   //this.views.load(defaultPage);
-  new Pages.App();
+  new Pages.Login();
 };
 
 // Usage: Initialize and run when document is ready
 window.onload = function() {
-  var index = new Index();
-  index.loadDefault();
+  var router = new Router();
+  router.loadDefault();
 };

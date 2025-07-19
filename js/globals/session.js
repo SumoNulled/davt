@@ -10,7 +10,8 @@ window.Loaders = {
 }
 
 window.Pages = {
-  App: App
+  App: App,
+  Login: Login
 }
 
 window.session = {
