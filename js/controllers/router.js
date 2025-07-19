@@ -13,8 +13,6 @@ function Router() {
  * @param {string} defaultPage The page to load by default.
  */
 Router.prototype.loadDefault = function(defaultPage) {
-  //defaultPage = defaultPage || "login";
-  //this.views.load(defaultPage);
   new Pages.Login();
 };
 
