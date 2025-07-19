@@ -9,6 +9,10 @@ window.Loaders = {
   Page: new PageLoader('viewContainer')
 }
 
+window.Pages = {
+  App: App
+}
+
 window.session = {
   isLoggedIn: true,
   userId: null,

@@ -14,10 +14,12 @@ function PageLoader(containerId) {
  * @param {string} pageName - Name of the page (filename without extension).
  */
  PageLoader.prototype.load = function(pageName) {
+     var c = this.container;
+     if (!c) return null;
+     
      var fso = new ActiveXObject("Scripting.FileSystemObject");
      var folder = "app\\tpl\\views\\";
      var path = folder + pageName + ".html";
-     var c = this.container;
 
      var xhr = new ActiveXObject("Microsoft.XMLHTTP");
      xhr.open("GET", "app/tpl/views/" + pageName + ".html", false);

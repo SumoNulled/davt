@@ -13,8 +13,9 @@ function Index() {
  * @param {string} defaultPage The page to load by default.
  */
 Index.prototype.loadDefault = function(defaultPage) {
-  defaultPage = defaultPage || "app";
-  this.views.load(defaultPage);
+  //defaultPage = defaultPage || "login";
+  //this.views.load(defaultPage);
+  new Pages.App();
 };
 
 // Usage: Initialize and run when document is ready
