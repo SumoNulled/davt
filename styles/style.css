@@ -7,7 +7,6 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #05060a; /* almost black */
   color: #a0a9b8; /* muted light grey-blue */
-  overflow: hidden;
 }
 body {
   scrollbar-base-color: #05060a;        /* very dark background */
@@ -71,14 +70,14 @@ a {
   padding: 16px 32px;
   font-weight: 600;
   font-size: 14px;
-  color: #6e7a94; /* dark muted blue-grey */
+  color: #aeb3bf; /* dark muted blue-grey */
   border-left: 4px solid transparent;
   transition: background-color 0.25s ease, border-left-color 0.3s ease, color 0.3s ease;
 }
 #sideBar nav a:hover,
 #sideBar nav a.active {
   background: linear-gradient(90deg, #12203a, #18305f);
-  color: #4a6eb1;
+  color: #FFFFF0;
   border-left-color: #4a6eb1;
 }
 #sideBar nav a svg {
@@ -133,7 +132,7 @@ a {
 #topBar .profile {
   margin-left: 24px;
   font-weight: 600;
-  color: #6e7a94;
+  color: #aeb3bf;
   cursor: pointer;
   user-select: none;
   transition: color 0.3s ease;
@@ -145,12 +144,13 @@ a {
 /* Main content */
 #mainContent {
   flex-grow: 1;
-  background: #05060a;
+  background: #090b12;
   padding: 32px 40px;
   overflow-y: auto;
 }
 
 #mainContent .page-title {
+  color: #aeb3bf;
   margin-top: 7px;
 }
 /* Cards grid */
@@ -163,12 +163,15 @@ a {
   clear: both;
 }
 .card {
-  background: linear-gradient(145deg, #0a0f19, #0e1320);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(145deg, #0a0f19, #141b2b);
   float: left;
   width: calc(33.3% - 7.5px); /* 50% minus half of the 10px margin */
   margin-right: 10px;
   margin-bottom: 10px;
-  padding: 28px 24px;
+  padding: 15px 24px;
   border-radius: 14px;
   box-shadow:
     inset 1px 1px 2px #121720,
@@ -184,15 +187,22 @@ a {
   background-color: #12203a;
 }
 .card .icon {
-  font-size: 28px;
-  margin-bottom: 16px;
+  font-size: 64px;
   color: #4a6eb1;
+  margin-left: 16px;
+  flex-shrink: 0;
+  text-shadow: -1px -1px 1px rgba(255,255,255,.4);
+}
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .card h3 {
-  margin: 0 0 12px;
+  margin: 0;
   font-weight: 600;
   font-size: 16px;
-  color: #6e7a94;
+  color: #aeb3bf;
 }
 .card .value {
   font-size: 28px;
@@ -202,7 +212,7 @@ a {
 
 /* Table section */
 .table-section {
-  background: linear-gradient(145deg, #0a0f19, #0e1320);
+  background: linear-gradient(145deg, #0a0f19, #141b2b);
   box-shadow:
     inset 1px 1px 3px #121720,
     inset -1px -1px 3px #04060a;
@@ -219,17 +229,18 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  color: #6e7a94;
+  color: #aeb3bf;
 }
 th, td {
   padding: 14px 20px;
-  border-bottom: 1px solid #121720;
+  border-bottom: 1px solid rgba(255,255,255,.025);
   text-align: left;
 }
 th {
-  background: #05060a;
+  /*background: #05060a;*/
+  background: rgba(0,0,0,.2);
   font-weight: 600;
-  color: #6e7a94;
+  color: #aeb3bf;
   border-bottom: 1px solid #121720;
 }
 tbody tr:hover {
