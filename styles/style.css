@@ -45,7 +45,7 @@ a {
   min-height: 100vh;
   background: linear-gradient(180deg, #070a13 0%, #0d1018 100%);
   border-right: 1px solid #121720;
-  width: 200px;
+  width: 250px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -144,7 +144,7 @@ a {
 /* Main content */
 #mainContent {
   flex-grow: 1;
-  background: linear-gradient(180deg, #05060a; 0%, #0d1018 100%);
+  background: #090b12;
   padding: 32px 40px;
   overflow-y: auto;
 }
