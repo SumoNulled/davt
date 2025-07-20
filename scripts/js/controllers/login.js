@@ -55,7 +55,7 @@ Login.prototype.handleLoginClick = function (e) {
   if (user) {
     // Valid credentials
     this.message.style.color = "green";
-    this.message.innerHTML = "Success! Establishing session";
+    this.message.innerHTML = "\u2705 Success! Establishing session";
 
     var count = 0;
     var interval = setInterval(function() {
@@ -64,7 +64,7 @@ Login.prototype.handleLoginClick = function (e) {
       for (var i = 0; i < count; i++) {
         dots += ".";
       }
-      this.message.innerHTML = "Success! Establishing session" + dots;
+      this.message.innerHTML = "\u2705 Success! Establishing session" + dots;
     }.bind(this), 250);
 
 
