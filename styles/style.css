@@ -144,7 +144,7 @@ a {
 /* Main content */
 #mainContent {
   flex-grow: 1;
-  background: #090b12;
+  background: linear-gradient(180deg, #05060a; 0%, #0d1018 100%);
   padding: 32px 40px;
   overflow-y: auto;
 }
