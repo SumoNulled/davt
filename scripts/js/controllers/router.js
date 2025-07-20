@@ -1,5 +1,5 @@
 /**
- * Index class to handle page loading and navigation in an HTA.
+ * Router class to handle page loading and navigation
  *
  * @param {string} containerId ID of the container element for loading pages.
  */
@@ -8,16 +8,16 @@ function Router() {
 }
 
 /**
- * Load the default page (login by default).
+ * Load the default page
  *
- * @param {string} defaultPage The page to load by default.
+ * @return {void}
  */
-Router.prototype.loadDefault = function(defaultPage) {
-  new Pages.App();
+Router.prototype.load = function() {
+  new Pages.Login();
 };
 
-// Usage: Initialize and run when document is ready
+// Usage: Initialize and run when DOM is ready
 window.onload = function() {
   var router = new Router();
-  router.loadDefault();
+  router.load();
 };
