@@ -95,7 +95,7 @@ Draft.prototype.init = function () {
      .filter(Boolean); // remove empty strings
 
    var lines = [
-     precedenceChar + "AA" + classificationChar + "ZYUW" + " " + "RHMMDDF0001 " + julianDate + time + "-" + classificationChar + classificationChar + classificationChar + classificationChar + "--RHMCSUU.",
+     precedenceChar + "AA" + classificationChar + "ZYUW" + " " + "GHICSUU0001 " + julianDate + time + "-" + classificationChar + classificationChar + classificationChar + classificationChar + "--DEFCSUU.",
      qzclass + " " + classificationChar + classificationChar + classificationChar + classificationChar + classificationChar,
      precedenceChar + " " + dateStr,
      "FM " + this.from.value,

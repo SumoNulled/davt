@@ -1,6 +1,6 @@
 # DAVT - Drafting and Validation Tool
 
-![Concept Image](https://i.imgur.com/RtAP2HS.png)
+![Concept Image](https://i.imgur.com/vF9tE7c.png)
 
 > *Note: Full functionality is not shown. This is early-stage development* Any indications of classified material are for development and demonstration purposes only, all relevant code is unclassified.
 
