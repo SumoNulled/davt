@@ -10,6 +10,7 @@
 
 ## Major Features
 ![Concept Image](https://i.imgur.com/vF9tE7c.png)
+- Built-in spellcheck to ensure professional messages
 - Automated generation of message headers and formatted bodies  
 - Smart word-wrapping with word-boundary preservation  
 - Accurate formatting of `GENTEXT/REMARKS` sections  
