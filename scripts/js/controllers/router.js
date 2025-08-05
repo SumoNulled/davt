@@ -13,7 +13,7 @@ function Router() {
  * @return {void}
  */
 Router.prototype.load = function() {
-  new Pages.Login();
+  new Pages.App();
 };
 
 // Usage: Initialize and run when DOM is ready

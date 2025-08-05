@@ -1,32 +1,68 @@
+<h2 class="page-title">Draft Message</h2>
+<div class="table-sections">
 
-    <h2 class="page-title">Draft Message</h2>
-    <form id="emailForm" style="max-width: 800px;">
-      <div style="margin-bottom: 20px;">
-        <label for="from">From:</label>
-        <input type="email" id="from" name="from" style="width: 100%; padding: 10px; background-color: #0f1115; border: 1px solid #2d3a4a; color: #e0e0e0; border-radius: 6px;">
+  <div class="column left-column">
+    <form id="emailForm" class="email-form">
+
+      <div class="form-row">
+        <div class="form-group third-width">
+          <!-- <label for="from">From:</label> -->
+          <input type="text" id="from" name="from" class="input-field" placeholder="From">
+        </div>
+        <div class="form-group third-width">
+          <!-- <label for="to">To:</label> -->
+          <input type="text" id="to" name="to" class="input-field" placeholder="To">
+        </div>
+        <div class="form-group third-width">
+          <!-- <label for="to">To:</label> -->
+          <input type="text" id="subject" name="subject" class="input-field" placeholder="Subject">
+        </div>
       </div>
 
-      <div style="margin-bottom: 20px;">
-        <label for="to">To:</label>
-        <input type="email" id="to" name="to" style="width: 100%; padding: 10px; background-color: #0f1115; border: 1px solid #2d3a4a; color: #e0e0e0; border-radius: 6px;">
+      <div class="form-group">
+        <!-- <label for="info">Info:</label> -->
+        <input type="text" id="info" name="info" class="input-field" placeholder="Info">
       </div>
 
-      <div style="margin-bottom: 20px;">
-        <label for="cc">CC:</label>
-        <input type="email" id="cc" name="cc" style="width: 100%; padding: 10px; background-color: #0f1115; border: 1px solid #2d3a4a; color: #e0e0e0; border-radius: 6px;">
+      <div class="form-row">
+        <div class="form-group third-width">
+          <!-- <label for="precedence">Precedence:</label> -->
+          <select id="precedence" name="precedence" class="input-field">
+            <option disabled>Precedence</option>
+            <option selected value="ROUTINE">ROUTINE</option>
+            <option value="PRIORITY">PRIORITY</option>
+            <option value="IMMEDIATE">IMMEDIATE</option>
+            <option value="FLASH">FLASH</option>
+          </select>
+        </div>
+        <div class="form-group third-width">
+          <!-- <label for="classification">Classification:</label> -->
+          <select id="classification" name="classification" class="input-field">
+            <option disabled>Classification</option>
+            <option selected value="UNCLAS">UNCLAS</option>
+            <option value="CONFIDENTIAL">CONFIDENTIAL</option>
+            <option value="SECRET">SECRET</option>
+            <option value="TOP SECRET">TOP SECRET</option>
+          </select>
+        </div>
+        <div class="form-group third-width">
+          <!-- <label for="datetime">Date/Time:</label> -->
+          <input type="text" id="datetime" name="datetime" class="input-field" placeholder="YYYY-MM-DD HHMM">
+        </div>
       </div>
 
-      <div style="margin-bottom: 20px;">
-        <label for="subject">Subject:</label>
-        <input type="text" id="subject" name="subject" style="width: 100%; padding: 10px; background-color: #0f1115; border: 1px solid #2d3a4a; color: #e0e0e0; border-radius: 6px;">
+      <div class="form-group">
+        <!-- <label for="body">Message Body:</label> -->
+        <textarea id="body" name="body" rows="30" class="textarea-field" placeholder="Message Body"></textarea>
       </div>
-
-      <div style="margin-bottom: 20px;">
-        <label for="body">Message:</label>
-        <textarea id="body" name="body" rows="12" style="width: 100%; padding: 12px; background-color: #0f1115; border: 1px solid #2d3a4a; color: #e0e0e0; border-radius: 6px; resize: vertical;"></textarea>
-      </div>
-
-      <button type="submit" style="padding: 14px 24px; background: linear-gradient(to right, #1b2a38, #243447); color: #ffffff; border: none; border-radius: 6px; cursor: pointer;">
-        Send
-      </button>
     </form>
+  </div>
+
+  <div class="column right-column">
+    <!-- <label for="from">Preview:</label> -->
+    <textarea id="preview" name="preview" rows="30" class="textarea-field" placeholder="Message Body" readonly></textarea>
+  </div>
+
+  <div style="clear: both;"></div>
+</div>
+  <button type="submit" class="send-button">Send</button>

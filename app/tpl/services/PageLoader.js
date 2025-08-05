@@ -50,7 +50,7 @@ function PageLoader(containerId) {
          this.attachNavigation();
          return true;
      } else {
-         c.innerHTML = "<h3>Page load failed</h3>";
+         c.innerHTML = "<h2 class='page-title'>Page load failed</h2>";
          return null;
      }
  };
@@ -80,6 +80,22 @@ function PageLoader(containerId) {
              }
          })(elements[i], this);
      }
+ };
+
+ /**
+  * Cleans up the current container's contents and event bindings.
+  * Useful before loading a new page or tearing down the view.
+  */
+ PageLoader.prototype.destruct = function() {
+     if (!this.container) return;
+
+     // Remove all child nodes from the container
+     while (this.container.firstChild) {
+         this.container.removeChild(this.container.firstChild);
+     }
+
+     // Optional: Reset container reference (if needed)
+     // this.container = null;
  };
 
 

@@ -6,7 +6,7 @@ window.Models = {
 
 window.Loaders = {
   Root: new PageLoader('root'),
-  Page: new PageLoader('viewContainer')
+  Page: new PageLoader('mainContent')
 }
 
 window.Pages = {

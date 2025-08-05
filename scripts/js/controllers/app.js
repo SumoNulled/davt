@@ -1,7 +1,6 @@
 /**
  * App class to handle page loading and navigation in an HTA.
  *
- * @param {string} containerId ID of the container element for loading pages.
  */
 function App() {
   if (!session.isLoggedIn) {
@@ -11,23 +10,9 @@ function App() {
   }
 
   Loaders.Root.load('app'); // This loads the HTML.
-  Loaders.Page = new PageLoader("mainContent");
-  this.views = Loaders.Page;
-  this.container = null;
-
-  this.load(); // Load default page
-
-  var self = this;
-
-  // Defer DOM access until next event loop tick
-  setTimeout(function () {
-    self.container = document.getElementById("appContainer");
-    if (self.container) {
-      self.container.classList.add("fade-in");
-    }
-
-    self.initSidebar(); // Initialize sidebar after DOM is ready
-  });
+  this.load();
+  this.initSidebar(); // Initialize sidebar after DOM is ready
+  this.showZuluTime();
 }
 
 /**
@@ -35,10 +20,40 @@ function App() {
  *
  * @param {string} page The page to load.
  */
-App.prototype.load = function (page) {
-  page = page || "dashboard";
-  this.views.load(page);
-};
+ App.prototype.load = function (page) {
+   page = page || "dashboard";
+
+   // Destruct the previous view
+   if (this.view && typeof this.view.destruct === "function") {
+     this.view.destruct();
+     this.view = null;
+   }
+
+   var oldScript = document.getElementById("page-script");
+   if (oldScript && oldScript.parentNode) {
+    oldScript.parentNode.removeChild(oldScript);
+   }
+
+   // Dynamically load new script
+   var script = document.createElement("script");
+   script.type = "text/javascript";
+   script.src = "scripts/js/controllers/" + page + ".js";
+   script.id = "page-script";
+
+   var self = this;
+   script.onload = function () {
+     // Assume page class name matches file name (e.g., Draft.js → Draft)
+     var PageClass = window[capitalize(page)];
+     if (typeof PageClass === "function") {
+       self.view = new PageClass();
+     } else {
+       alert("Failed to load page class for: " + page);
+     }
+   };
+
+   document.body.appendChild(script);
+ };
+
 
 /**
  * Initialize sidebar navigation and toggle.
@@ -84,3 +99,22 @@ App.prototype.initSidebar = function () {
      self.load(page);
    };
  };
+
+ App.prototype.showZuluTime = function () {
+  var container = document.getElementById("zulu-time-display");
+  if (!container) return;
+
+  function updateTime() {
+    var now = new Date();
+    var zulu = now.toISOString().replace("T", " ").replace(/\.\d+Z$/, "Z");
+    container.innerText = zulu;
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000); // Optional: live updating
+};
+
+
+ function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
