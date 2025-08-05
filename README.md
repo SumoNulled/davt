@@ -1,15 +1,15 @@
 # DAVT - Drafting and Validation Tool
+![Dashboard](https://i.imgur.com/kPwREIZ.png)
 
-![Concept Image](https://i.imgur.com/vF9tE7c.png)
-
-> *Note: Full functionality is not shown. This is early-stage development* Any indications of classified material are for development and demonstration purposes only, all relevant code is unclassified.
+> *Note: Full functionality is not shown. This is early-stage development.*
+> Any indications of classified material are for development and demonstration purposes only, all relevant code is unclassified.
 
 ## Overview
 
 **DAVT** is a **.hta (Hypertext Application)** designed to assist naval personnel in drafting and validating official messages compliant with the **NTP-4** naval messaging standard.
 
 ## Major Features
-
+![Concept Image](https://i.imgur.com/vF9tE7c.png)
 - Automated generation of message headers and formatted bodies  
 - Smart word-wrapping with word-boundary preservation  
 - Accurate formatting of `GENTEXT/REMARKS` sections  
