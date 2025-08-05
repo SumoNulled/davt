@@ -2,7 +2,7 @@
 
 ![Concept Image](https://i.imgur.com/RtAP2HS.png)
 
-> *Note: Full functionality is not shown. This is early-stage development*
+> *Note: Full functionality is not shown. This is early-stage development* Any indications of classified material are for development and demonostration purposes only, all relevant code is unclassified.
 
 ## Overview
 
